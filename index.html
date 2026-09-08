@@ -272,8 +272,14 @@ button:disabled{opacity:.4;cursor:default}
     <div class="sub" id="syncstat">共有OFF</div>
     <div class="row" style="margin-top:10px">
       <button onclick="changeSyncId()">合言葉を設定する</button>
+      <button onclick="exportState()">この端末の記録を書き出す</button>
     </div>
-    <div class="note">同じ合言葉を入れた端末どうしで、学習ずみ・復習箱・お気に入り・削除・やる気の記録が共有されます。</div>
+    <div class="note">同じ合言葉を入れた端末どうしで、学習ずみ・復習箱・お気に入り・削除・やる気の記録が共有されます。<br>
+      「書き出す」を押すと記録がコピーされます。<b>削除したフレーズを元データにも反映したいとき</b>や、
+      どのフレーズでつまずいているかをまとめ直したいときに、コピーした内容をClaudeに貼って <code>/gimmy-add</code> を呼んでください。</div>
+    <textarea id="exp" readonly style="width:100%;height:96px;margin-top:10px;font-size:11px;
+      border:1px solid var(--line);border-radius:10px;padding:8px;background:var(--bg);
+      color:var(--ink);font-family:ui-monospace,monospace" class="hidden"></textarea>
   </div>
 </section>
 
@@ -812,6 +818,27 @@ function mvRender() {
   el.innerHTML = mvHtml();
 }
 /* MOTIV:JS:END */
+
+/* この端末の記録を書き出す（削除の反映・つまずきの棚卸しに使う） */
+function exportState(){
+  const on = o => Object.keys(o).filter(k => o[k] && o[k].on);
+  const weak = Object.keys(srs).filter(k => (srs[k].pct|0) < 60);
+  const payload = {
+    site: 'gimmy', exportedAt: new Date().toISOString(), total: ALL.length,
+    deleted: on(del), favorites: on(fav), seen: seen.slice(),
+    weak: weak,
+    srs: srs
+  };
+  const text = JSON.stringify(payload);
+  const box = document.getElementById('exp');
+  box.classList.remove('hidden'); box.value = text;
+  const done = ok => alert(ok
+    ? `記録をコピーしました（学習ずみ${seen.length} / お気に入り${on(fav).length} / 削除${on(del).length} / 苦手${weak.length}）。\nそのままClaudeに貼って /gimmy-add を呼んでください。`
+    : '自動コピーできませんでした。下の枠の中身を選んでコピーしてください。');
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(()=>done(true)).catch(()=>{ box.select(); done(false); });
+  } else { box.select(); done(false); }
+}
 
 /* ============ お気に入り・削除 ============ */
 function toggleFav(id){
