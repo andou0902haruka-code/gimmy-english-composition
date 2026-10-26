@@ -289,6 +289,71 @@ button:disabled{opacity:.4;cursor:default}
   .mv-chip .mv-c-n{font-size:1.3rem;}
 }
 /* MOTIV:CSS:END */
+/* RV:CSS:BEGIN */
+/* ============================================================
+   復習のきまり（5アプリ共通） — 見た目
+   正本: .claude/skills_assets/review-core/rv.css（inject.py が各アプリへ配る）
+   ・色はアプリの変数に頼らず、この中で完結させる。クラス名は全て rv- 始まり
+   ============================================================ */
+.rv-bar,.rv-panel,.rv-grade,.rv-note,.rv-modal{
+  --rv-ink:#1d2433; --rv-sub:#5f6879; --rv-mute:#8a93a3; --rv-line:#e3e7ee; --rv-card:#fff; --rv-soft:#f5f7fb;
+  --rv-acc:#2f6fd6; --rv-g1:#1f8a5b; --rv-g2:#c98a12; --rv-g3:#c4473d;
+  color:var(--rv-ink); line-height:1.65; text-align:left;
+}
+@media (prefers-color-scheme: dark){
+  .rv-bar,.rv-panel,.rv-grade,.rv-note,.rv-modal{
+    --rv-ink:#e8ecf3; --rv-sub:#aab3c2; --rv-mute:#8590a2; --rv-line:#353d4c; --rv-card:#1d222c; --rv-soft:#252b37;
+    --rv-acc:#7aa8ff; --rv-g1:#4cc38a; --rv-g2:#e0aa3e; --rv-g3:#f07a6f;
+  }
+}
+.rv-bar *,.rv-panel *,.rv-grade *,.rv-modal *{box-sizing:border-box;}
+.rv-bar{border:1px solid var(--rv-line);background:var(--rv-card);border-radius:12px;padding:12px 14px;margin:10px 0;}
+.rv-bar-top{font-size:.95rem;font-weight:700;}
+.rv-bar-top b{font-size:1.25rem;}
+.rv-bar-tnote{font-size:.72rem;font-weight:400;color:var(--rv-mute);margin-left:4px;}
+.rv-meter{height:8px;border-radius:999px;background:var(--rv-soft);overflow:hidden;margin:7px 0 6px;}
+.rv-meter i{display:block;height:100%;background:var(--rv-acc);border-radius:999px;}
+.rv-full .rv-meter i{background:var(--rv-g1);}
+.rv-bar-sub{font-size:.8rem;color:var(--rv-sub);}
+
+.rv-grade{margin-top:12px;}
+.rv-grade-q{font-size:.85rem;color:var(--rv-sub);margin-bottom:6px;}
+.rv-grade-ref{font-size:.76rem;color:var(--rv-mute);margin:4px 0 6px;}
+.rv-g{display:block;width:100%;text-align:left;margin:6px 0;padding:10px 12px;border-radius:10px;cursor:pointer;
+  border:1.5px solid var(--rv-line);background:var(--rv-card);color:var(--rv-ink);font:inherit;}
+.rv-g b{display:block;font-size:.95rem;}
+.rv-g small{display:block;font-size:.74rem;color:var(--rv-sub);font-weight:400;}
+.rv-g1{border-color:color-mix(in srgb, var(--rv-g1) 45%, var(--rv-line));}
+.rv-g2{border-color:color-mix(in srgb, var(--rv-g2) 45%, var(--rv-line));}
+.rv-g3{border-color:color-mix(in srgb, var(--rv-g3) 45%, var(--rv-line));}
+.rv-g1 b{color:var(--rv-g1);} .rv-g2 b{color:var(--rv-g2);} .rv-g3 b{color:var(--rv-g3);}
+.rv-g.rv-on{background:var(--rv-soft);box-shadow:inset 0 0 0 2px var(--rv-acc);}
+.rv-g[disabled]{opacity:.4;cursor:not-allowed;}
+
+.rv-note{font-size:.78rem;color:var(--rv-sub);background:var(--rv-soft);border-radius:8px;padding:7px 10px;margin-top:8px;}
+
+.rv-panel{border:1px solid var(--rv-line);background:var(--rv-card);border-radius:12px;padding:10px 14px;margin:10px 0;font-size:.85rem;}
+.rv-panel summary{cursor:pointer;font-weight:700;color:var(--rv-sub);}
+.rv-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:10px 0;}
+.rv-grid div{background:var(--rv-soft);border-radius:8px;padding:6px 4px;text-align:center;}
+.rv-grid b{display:block;font-size:1.05rem;color:var(--rv-ink);}
+.rv-grid span{font-size:.68rem;color:var(--rv-sub);}
+.rv-h{font-weight:700;margin:12px 0 4px;}
+.rv-p{margin:6px 0;color:var(--rv-sub);}
+.rv-warn{color:var(--rv-ink);background:var(--rv-soft);border-radius:8px;padding:6px 9px;}
+.rv-mute{color:var(--rv-mute);font-size:.75rem;}
+.rv-row{display:flex;gap:8px;align-items:center;justify-content:space-between;border-top:1px solid var(--rv-line);padding:6px 0;}
+.rv-row-l{flex:1 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.rv-row-b{flex:0 0 auto;display:flex;gap:6px;align-items:center;}
+.rv-btn{border:1px solid var(--rv-line);background:var(--rv-card);color:var(--rv-ink);border-radius:8px;padding:4px 10px;font:inherit;font-size:.78rem;cursor:pointer;}
+.rv-btn.rv-on{background:var(--rv-acc);border-color:var(--rv-acc);color:#fff;}
+.rv-chk{display:block;margin:6px 0;color:var(--rv-sub);}
+.rv-chk .rv-btn{margin-left:4px;}
+
+.rv-modal{position:fixed;inset:0;background:rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center;z-index:9999;padding:16px;}
+.rv-modal-in{background:var(--rv-card);color:var(--rv-ink);border-radius:14px;max-width:560px;width:100%;max-height:85vh;overflow:auto;padding:16px;}
+.rv-modal-b{display:flex;gap:8px;justify-content:flex-end;margin-top:12px;}
+/* RV:CSS:END */
 </style>
 </head>
 <body>
@@ -305,8 +370,10 @@ button:disabled{opacity:.4;cursor:default}
       <div><b id="s-total">0</b><span>収録</span></div>
       <div><b id="s-done">0</b><span>学習ずみ</span></div>
       <div><b id="s-fav">0</b><span>お気に入り</span></div>
-      <div><b id="s-due">0</b><span>今日の復習</span></div>
+      <div><b id="s-due">0</b><span>今日あと</span></div>
     </div>
+    <div id="rvBar"></div>
+    <div id="holdBox"></div>
   </div>
 
   <div class="card">
@@ -329,6 +396,7 @@ button:disabled{opacity:.4;cursor:default}
       <label><input type="checkbox" id="o-nonstop" onchange="saveOpt()">自動で答えを出す</label>
     </div>
     <div class="note">答え合わせをした瞬間に記録が確定します。途中でやめても、そこまでは学習ずみとして残ります。</div>
+    <div id="rvPanel"></div>
   </div>
 
   <div class="card">
@@ -392,15 +460,7 @@ button:disabled{opacity:.4;cursor:default}
         <button class="spk" onclick="playEn()">▶ 音声</button>
         <button class="spk" onclick="playEn(.7)">▶ ゆっくり</button>
       </div>
-      <div style="font-size:13px;color:var(--sub);margin-bottom:7px">どれくらい言えた？</div>
-      <div class="score">
-        <button onclick="grade(100)">100%<small>完全に一致</small></button>
-        <button onclick="grade(80)">80%<small>ほぼ同じ</small></button>
-        <button onclick="grade(60)">60%<small>意味は通る</small></button>
-        <button onclick="grade(40)">40%<small>半分だけ</small></button>
-        <button onclick="grade(20)">20%<small>単語だけ</small></button>
-        <button onclick="grade(0)">0%<small>出てこない</small></button>
-      </div>
+      <div id="p-score"></div>
       <div class="meta">
         <div><b>型</b> — <span id="p-ptn"></span></div>
         <div style="margin-top:6px" id="p-exp"></div>
@@ -410,6 +470,7 @@ button:disabled{opacity:.4;cursor:default}
       </div>
     </div>
   </div>
+  <div id="p-prevfix"></div>
 </section>
 
 <!-- ================= RESULT ================= -->
@@ -541,7 +602,7 @@ async function initSync(){
         if(m.length !== d[SEEN_KEY].length) changed.push(SEEN_KEY);
         seen = m; saveJSON(SEEN_KEY, seen);
       }
-      if(d[SRS_KEY]  && typeof d[SRS_KEY]==='object'){ srs = mergeSrs(srs, d[SRS_KEY]); saveJSON(SRS_KEY, srs); changed.push(SRS_KEY); }
+      if(d[SRS_KEY]  && typeof d[SRS_KEY]==='object'){ srs = mergeSrs(srs, d[SRS_KEY]); saveJSON(SRS_KEY, srs); changed.push(SRS_KEY); rvAbsorb(); }
       if(d[FAV_KEY]  && typeof d[FAV_KEY]==='object'){ fav = mergeStamped(fav, d[FAV_KEY]); saveJSON(FAV_KEY, fav); changed.push(FAV_KEY); }
       if(d[DEL_KEY]  && typeof d[DEL_KEY]==='object'){ del = mergeStamped(del, d[DEL_KEY]); saveJSON(DEL_KEY, del); changed.push(DEL_KEY); }
       if(d[MOTIV_KEY] && typeof d[MOTIV_KEY]==='object'){
@@ -568,6 +629,815 @@ function syncPush(key){
       .catch(e=>console.warn('記録の送信に失敗', e));
   }catch(e){}
 }
+
+/* ============ 復習のきまり（5アプリ共通・2026-10-26） ============
+   箱と期限・1日30問の上限・3段階の採点・新規登録の制御・端末間の合流は rv.js（下の RV:JS）。
+   srs（gm_srs）の box/next/last は既存の画面（一覧の「箱」）と合言葉同期のための「写し」。
+   ・日本語から英語を口で言う練習なので、①は「答えを見る前に英語を言えた」ときだけ
+   ・まちがえても当日中には戻さない（③は2段下げて翌日）。間隔は 1/3/7/14/35/90日
+   ・どの入口でも、復習対象のフレーズは同じ1日30問に数える */
+const RV_ENV = {
+  app: 'gimmy', name: 'Gimmy英作文', unit: '問',
+  intervals: [1, 3, 7, 14, 35, 90],
+  legacy(){ return Object.keys(srs).filter(id => srs[id] && srs[id].last && srs[id].next && !srs[id].wait).map(id => ({ id, box: srs[id].box | 0, due: srs[id].next, last: srs[id].last })); },
+  put(id, st){
+    const r = srs[id] || {};
+    r.box = st.box; r.next = st.dueYmd; r.last = st.lastYmd; delete r.wait;
+    srs[id] = r; saveJSON(SRS_KEY, srs); syncPush(SRS_KEY);
+  },
+  ids(){ return live().map(i => i.id); },
+  viewed(id){ return isSeen(id); },
+  label(id){ const it = BY_ID[id]; return it ? it.ja + ' → ' + it.en : id; },
+  detail(id){
+    const it = BY_ID[id];
+    if(!it) return '';
+    return `<div class="ja-q" style="font-size:17px">${it.ja}</div><div class="en-a" style="font-size:17px">${it.en}</div>`
+      + `<div class="meta"><div><b>型</b> — ${it.pattern}</div><div style="margin-top:6px">${it.explanation || ''}</div>`
+      + `<div style="margin-top:10px"><b>同じ型の例</b></div><ul class="apply">${(it.apply || []).map(a => `<li><div class="aj">${a.ja}</div><div class="ae">${a.en}</div></li>`).join('')}</ul></div>`;
+  },
+  onChange(){ if(!document.getElementById('home').classList.contains('hidden')){ refresh(); renderList(); } }
+};
+/* RV:JS:BEGIN */
+/* ============================================================
+   復習のきまり（5アプリ共通） — 中身
+   正本: .claude/skills_assets/review-core/rv.js
+   英単語ノート / 表現メモ / Nextstage問題集 / AIEnglish（日替わり＋7テスト）/ Gimmy英作文 へ
+   inject.py が同じ中身を配る。直すときは必ずこのファイルを直して inject.py を回すこと
+   （生成HTMLを直接いじっても build.py / inject.py で消える）。
+
+   ------------------------------------------------------------
+   ねらい: 復習待ちを毎日ゼロにするのではなく、1つのアプリにつき1日最大30問の負担で、
+   長く覚えて使えるようにする。
+
+   決まり（数値はすべて RV_DEFAULTS。設定画面から変えたものは RV.cfg に入って同期される）
+   ・1日の上限はアプリごとに30問。入口（今日の復習・苦手・お気に入り・新規学習…）を問わず
+     「復習対象の問題に答えた回数」を共通で数える。日付の区切りは日本時間の0時
+   ・数えるのは答え合わせ・自己採点が確定した瞬間だけ。同じ回答は eid で1回にまとめる
+     （再読み込み・二重送信・2台の同期で増えない）。採点の付け直しは同じ eid の修正
+   ・採点は3段階。①思い出せた(80〜100%) ②惜しい(40〜60%) ③思い出せなかった(0〜20%)
+     ① 1段進めて移動先の段の間隔 ／ ② 段はそのまま、その段の間隔の半分（切り上げ・1〜7日）
+     ③ 2段下げて翌日。不正解でも当日中には戻さない。同じ問題の箱が動くのは1日1回まで
+   ・30問の選び方は 20（直近でまちがえた・定着が弱い）＋10（長く待っている）。片方が余れば他方へ
+   ・新規登録は1日5件まで。期限の来た未消化が30件を超える日は0件。超えたぶんは「登録待ち」
+   ・③が3回続いた問題は「学び直し候補」。本人が選んだときだけ7日休める（習得済みとは別）
+
+   アプリ側がこのブロックより前に用意するもの:
+     var RV_ENV = {
+       app: 'vocab',                    // 保存キー rv_<app> と同期ドキュメント <合言葉>__rv_<app>
+       name: '英単語ノート',            // 画面に出すアプリ名
+       unit: '問',                      // 件数の単位
+       intervals: [1,2,4,7,14,30,60,120],   // 段ごとの間隔（日）。段は0始まり
+       legacy(){ return [{id, box, due, last}] },  // 移行用。box=0始まり、due/last=ミリ秒・日数・'YYYY-MM-DD'のどれでも
+       put(id, st){ ... },              // 箱と期限をアプリ自身の保存先へ映す（既存画面のため）
+       ids(){ return [...] },           // 任意。いま出題できる問題のid（削除済みを除く）
+       timeCap(){ return 件数 },        // 任意。「今日つかう時間」から換算した件数
+       recog(fmt){ return bool },       // 任意。選択式など「見て選べた」形式なら true
+       label(id){ return '短い見出し' }, // 任意
+       viewed(id){ return bool },       // 任意。アプリ自身の「出題済み・閲覧した」記録
+       detail(id){ return 'HTML' },     // 任意。学び直し用（例文・まぎらわしい語・文の構造など）
+       onChange(){ ... }                // 任意。設定や休止を変えたあと画面を描き直す
+     }
+   呼びかた（主なもの）:
+     rvInit()                 … 起動時に1回（移行・取り込み・同期の開始）
+     rvAnswer(id, pct, opt)   … 答え合わせ・自己採点が確定した瞬間に1回。opt={fmt, retry}
+     rvRegrade(eid, pct)      … 採点の付け直し（回数は増やさず、回答前から計算し直す）
+     rvPick(ids, n)           … 今日の復習の出題（20＋10の配分・残り枠まで）
+     rvGate(ids)              … どの入口でも出題前に通す（復習対象は残り枠まで・今日答えた問題は外す）
+     rvServeOk(id, retry)     … 出題の直前に、まだ出してよいか
+     rvLeft() / rvDone()      … 今日の残り枠 / 今日数えた回数
+     rvBarHtml() / rvPanelHtml() / rvGradeHtml(fn, opt)   … 画面の部品
+   ============================================================ */
+
+var RV_DEFAULTS = {
+  cap: 30,           /* 1日の復習の上限（問）。アプリごとに独立 */
+  weak: 20,          /* 30問のうち「直近でまちがえた・定着が弱い」問題の枠（残りが「長く待っている」問題の枠） */
+  newPerDay: 5,      /* 復習対象への新規登録（1日あたり） */
+  backlogStop: 30,   /* 期限の来た未消化がこれを超える日は新規登録の推奨数を0件にする */
+  retry: false,      /* 当日の解き直し（標準オフ） */
+  retryMax: 3,       /* 解き直しは1アプリ1日この問数まで（30問の内数・各問題1回まで） */
+  capAll: false,     /* true＝新規学習も含めて、このアプリの全出題を1日30問以内にする */
+  relearnN: 3,       /* 通常復習で③がこの回数続いたら「学び直し候補」 */
+  pauseDays: 7,      /* 本人が選んだときの休止の日数 */
+  recogMax: 3,       /* 選択式の正解だけで上がれる段（0始まり）。英単語ノートの4択などに効く */
+  nearMin: 1,        /* ②惜しい の再確認間隔の下限（日） */
+  nearMax: 7,        /* 同 上限（日） */
+  keepDays: 45       /* 回答の記録をそのまま持つ日数（それより古いものは箱の状態にまとめて軽くする） */
+};
+var RV_DAY = 86400000, RV_TZ = 9 * 3600000;   /* 日本時間 = UTC+9（夏時間なし） */
+var RV_SHIFT = 0;                              /* テスト用: 時計をずらす（ミリ秒） */
+var RV = null, RV_ITEMS = null;
+var RV_PCT = { 1: 100, 2: 60, 3: 0 };          /* 3段階で付けたときに残す点 */
+
+/* ---------------- 日付（日本時間の0時で区切る） ---------------- */
+function rvNow() { return Date.now() + RV_SHIFT; }
+function rvDayOf(ms) { return Math.floor((Number(ms) + RV_TZ) / RV_DAY); }
+function rvToday() { return rvDayOf(rvNow()); }
+function rvDayMs(d) { return d * RV_DAY - RV_TZ; }            /* その日の0時（日本時間）のミリ秒 */
+function rvP2(n) { return (n < 10 ? '0' : '') + n; }
+function rvYmd(d) { var x = new Date(d * RV_DAY); return x.getUTCFullYear() + '-' + rvP2(x.getUTCMonth() + 1) + '-' + rvP2(x.getUTCDate()); }
+function rvMd(d) { var x = new Date(d * RV_DAY); return (x.getUTCMonth() + 1) + '/' + x.getUTCDate(); }
+/* ミリ秒・日番号・'YYYY-MM-DD'・ISO文字列のどれでも日番号にする */
+function rvToDay(v) {
+  if (v === null || v === undefined || v === '') return null;
+  if (typeof v === 'number') return v > 1e9 ? rvDayOf(v) : Math.floor(v);
+  var s = String(v);
+  if (/^\d{4}-\d{2}-\d{2}$/.test(s)) { var p = s.split('-'); return Math.floor(Date.UTC(+p[0], +p[1] - 1, +p[2]) / RV_DAY); }
+  var t = new Date(s).getTime();
+  return isFinite(t) ? rvDayOf(t) : null;
+}
+function rvToMs(v) {
+  if (v === null || v === undefined || v === '') return 0;
+  if (typeof v === 'number') return v > 1e9 ? v : rvDayMs(v) + 12 * 3600000;
+  var s = String(v);
+  if (/^\d{4}-\d{2}-\d{2}$/.test(s)) return rvDayMs(rvToDay(s)) + 12 * 3600000;   /* 日付だけなら正午 */
+  var t = new Date(s).getTime();
+  return isFinite(t) ? t : 0;
+}
+
+/* ---------------- 設定 ---------------- */
+function rvEnv() { return (typeof RV_ENV !== 'undefined' && RV_ENV) ? RV_ENV : {}; }
+function rvUnit() { return rvEnv().unit || '問'; }
+function rvCfg() {
+  var c = {}, k, own = (RV && RV.cfg && RV.cfg.v) || {};
+  for (k in RV_DEFAULTS) c[k] = RV_DEFAULTS[k];
+  for (k in own) if (k in RV_DEFAULTS) c[k] = own[k];
+  return c;
+}
+function rvSetCfg(k, v) {
+  rvLoad();
+  var cur = (RV.cfg && RV.cfg.v) || {}, o = {};
+  for (var x in cur) o[x] = cur[x];
+  if (v === RV_DEFAULTS[k]) delete o[k]; else o[k] = v;
+  RV.cfg = { t: rvNow(), v: o };
+  rvSave();
+}
+function rvIv() { var iv = rvEnv().intervals; return (iv && iv.length) ? iv : [1, 3, 7, 14, 35, 90]; }
+
+/* ---------------- 保存 ---------------- */
+function rvKey() { return 'rv_' + (rvEnv().app || 'app'); }
+function rvBlank() { return { v: 1, mig: 0, base: {}, ev: {}, wait: {}, seen: {}, pause: {}, cfg: { t: 0, v: {} } }; }
+function rvClean(o) {
+  var b = rvBlank();
+  if (!o || typeof o !== 'object') return b;
+  ['base', 'ev', 'wait', 'seen', 'pause'].forEach(function (k) { if (o[k] && typeof o[k] === 'object' && !Array.isArray(o[k])) b[k] = o[k]; });
+  if (o.cfg && typeof o.cfg === 'object' && o.cfg.v && typeof o.cfg.v === 'object') b.cfg = { t: o.cfg.t || 0, v: o.cfg.v };
+  b.mig = o.mig || 0;
+  return b;
+}
+function rvLoad() {
+  if (RV) return RV;
+  var raw = null;
+  try { raw = JSON.parse(localStorage.getItem(rvKey()) || 'null'); } catch (e) { raw = null; }
+  RV = rvClean(raw);
+  RV_ITEMS = null;
+  return RV;
+}
+function rvJson() { return JSON.stringify(RV, function (k, v) { return k === '_id' ? undefined : v; }); }
+function rvSave(push) {
+  RV_ITEMS = null;
+  try { localStorage.setItem(rvKey(), rvJson()); } catch (e) {}
+  if (push !== false) rvSchedulePush();
+}
+
+/* ---------------- 採点の意味 ---------------- */
+/* 6段階の履歴（100/80/60/40/20/0）と3段階の対応。過去の記録はこの対応で一括再計算しない */
+function rvGradeOf(p) { p = Number(p); return p >= 80 ? 1 : (p >= 40 ? 2 : 3); }
+function rvGradeLabel(g) { return g === 1 ? '① 思い出せた' : g === 2 ? '② 惜しい' : '③ 思い出せなかった'; }
+function rvClampPct(p) { p = Math.round(Number(p)); return isFinite(p) ? Math.max(0, Math.min(100, p)) : 0; }
+
+/* ---------------- 回答の記録から、問題ごとの状態を組み立てる ----------------
+   状態は「移行時（または取り込み時）の箱」＋「それ以降の回答」から毎回計算する。
+   だから採点を付け直しても、2台の記録が合流しても、回答前の状態から正しく計算し直される。
+   e.k: 'r'=復習（登録済みの問題に答えた）'n'=新規学習 'a'=当日の解き直し 'e'=登録待ちから登録 */
+function rvNewSt() { return { en: 0, box: 0, due: 0, last: 0, g: 0, ng3: 0, mv: -1, ad: -1, ed: -1, n: 0 }; }
+function rvFromBase(b) {
+  var s = rvNewSt();
+  s.en = 1; s.box = b[0] | 0; s.due = b[1] == null ? 0 : b[1]; s.last = b[2] || 0; s.g = b[4] || 0; s.ng3 = b[5] || 0;
+  return s;
+}
+function rvIsRecog(f) { var fn = rvEnv().recog; try { return !!(fn && f && fn(f)); } catch (e) { return false; } }
+/* 1回ぶんの回答で箱と期限を動かす（o＝予定日のならしでずらした日数） */
+function rvStep(s, e) {
+  var iv = rvIv(), L = iv.length, c = rvCfg(), g = rvGradeOf(e.p), d = e.d;
+  var box = Math.min(L - 1, Math.max(0, s.box | 0)), nb, due;
+  if (g === 1) {
+    nb = Math.min(L - 1, box + 1);
+    /* 選択式で選べた＝自力で言える・書けるとは限らない。選択式の正解だけでは recogMax より上へ進めない */
+    if (rvIsRecog(e.f) && nb > c.recogMax) nb = Math.max(box, Math.min(L - 1, c.recogMax));
+    due = d + iv[nb];
+  } else if (g === 2) {
+    nb = box;
+    due = d + Math.min(c.nearMax, Math.max(c.nearMin, Math.ceil(iv[box] / 2)));
+  } else {
+    nb = Math.max(0, box - 2);
+    due = d + 1;
+  }
+  if (e.o && due - d >= 5) due = Math.max(d + 2, due + e.o);   /* 翌日の確認はずらさない */
+  s.box = nb; s.due = due; s.last = e.t; s.g = g; s.mv = d;
+  /* 学び直し候補は「通常の復習で③が続いた回数」。初回学習の③は数えない */
+  s.ng3 = g === 3 ? (e.k === 'r' ? s.ng3 + 1 : s.ng3) : 0;
+}
+function rvApply(s, e) {
+  if (e.k === 'e') {                       /* 登録待ちから復習対象へ */
+    if (!s.en) { s.en = 1; s.box = 0; s.due = e.d; s.last = e.t; s.ed = e.d; }
+    return;
+  }
+  s.ad = e.d; s.n++;
+  if (e.k === 'a') return;                 /* 解き直しは箱を動かさない（最初の回答の翌日以降の確認を残す） */
+  if (!s.en) {
+    if (e.k === 'n' && e.en) { s.en = 1; s.box = 0; s.ed = e.d; }
+    else return;                           /* 初回学習したが、まだ登録していない（登録待ち） */
+  }
+  if (s.mv === e.d) return;                /* 同じ日に箱が動くのは1回だけ（本体と応用、2台の同時利用でも） */
+  rvStep(s, e);
+}
+function rvSortEv(a, b) { return a.t - b.t || (a._id < b._id ? -1 : a._id > b._id ? 1 : 0); }
+function rvEvOf(id, uptoEid) {
+  var out = [], ev = RV.ev;
+  for (var k in ev) { var e = ev[k]; if (e && String(e.i) === String(id)) { e._id = k; out.push(e); } }
+  out.sort(rvSortEv);
+  if (uptoEid) { var j = out.findIndex(function (e) { return e._id === uptoEid; }); if (j >= 0) out = out.slice(0, j); }
+  return out;
+}
+function rvReplayOne(id, list) {
+  var b = RV.base[id], s = b ? rvFromBase(b) : rvNewSt(), bt = b ? (b[3] || 0) : -Infinity;
+  list.forEach(function (e) { if (e.t > bt) rvApply(s, e); });
+  return s;
+}
+function rvItems() {
+  if (RV_ITEMS) return RV_ITEMS;
+  rvLoad();
+  var by = {}, ev = RV.ev, out = {}, k;
+  for (k in ev) { var e = ev[k]; if (!e) continue; e._id = k; (by[e.i] = by[e.i] || []).push(e); }
+  for (k in RV.base) if (!by[k]) out[k] = rvFromBase(RV.base[k]);
+  for (k in by) out[k] = rvReplayOne(k, by[k].sort(rvSortEv));
+  RV_ITEMS = out;
+  return out;
+}
+function rvSt(id) { var s = rvItems()[String(id)]; return s || rvNewSt(); }
+
+/* ---------------- 問題の状態 ---------------- */
+function rvEnrolled(id) { return !!rvSt(id).en; }
+function rvPaused(id) { rvLoad(); var p = RV.pause[String(id)]; return !!(p && p.until > rvToday()); }
+function rvRelearn(id) { var s = rvSt(id); return !!(s.en && s.ng3 >= rvCfg().relearnN); }
+function rvWaiting(id) { rvLoad(); id = String(id); return !!RV.wait[id] && !rvEnrolled(id); }
+function rvAnsweredToday(id) { return rvSt(id).ad === rvToday(); }
+function rvIsDue(id) {
+  var s = rvSt(id);
+  return !!(s.en && s.due <= rvToday() && !rvPaused(id) && s.ad !== rvToday());
+}
+/* 閲覧した（出題して見せたが、まだ答え合わせしていない）。登録前の問題だけ控える */
+function rvView(id) {
+  rvLoad(); id = String(id);
+  if (RV.seen[id] || rvEnrolled(id)) return;
+  RV.seen[id] = rvToday();
+  rvSave();
+}
+/* 0=未学習 1=閲覧した 2=初回学習した（登録待ち） 3=復習対象 */
+function rvStage(id) {
+  rvLoad(); id = String(id);
+  var s = rvSt(id);
+  if (s.en) return 3;
+  if (RV.wait[id] || s.n) return 2;
+  if (RV.seen[id]) return 1;
+  var v = rvEnv().viewed;                 /* アプリ自身の「出題済み」記録（7テストの seen など） */
+  try { if (v && v(id)) return 1; } catch (e) {}
+  return 0;
+}
+function rvLiveIds() {
+  var f = rvEnv().ids, ids = null;
+  try { ids = f ? f() : null; } catch (e) { ids = null; }
+  return ids ? ids.map(String) : Object.keys(rvItems());
+}
+
+/* ---------------- 今日の回数 ---------------- */
+function rvCounted(e) { return e.k === 'r' || e.k === 'a' || (e.k === 'n' && rvCfg().capAll); }
+function rvTodayEv() {
+  rvLoad();
+  var d = rvToday(), out = [];
+  for (var k in RV.ev) { var e = RV.ev[k]; if (e && e.d === d) out.push(e); }
+  return out;
+}
+function rvDone() { return rvTodayEv().filter(rvCounted).length; }
+function rvLimit() {
+  var c = rvCfg(), tc = Infinity, f = rvEnv().timeCap;
+  try { if (f) tc = Number(f()); } catch (e) { tc = Infinity; }
+  if (!(tc >= 0)) tc = Infinity;
+  return Math.min(c.cap, Math.max(1, Math.round(tc)));
+}
+function rvLeft() { return Math.max(0, rvLimit() - rvDone()); }
+function rvRetryDone() { return rvTodayEv().filter(function (e) { return e.k === 'a'; }).length; }
+function rvEnrolledToday() { return rvTodayEv().filter(function (e) { return (e.k === 'n' && e.en) || e.k === 'e'; }).length; }
+
+/* 期限の来た未消化（今日まだ答えていない・休止していない） */
+function rvDueIds(ids) { return (ids || rvLiveIds()).map(String).filter(rvIsDue); }
+function rvBacklog() { return rvDueIds().length; }
+/* 今日の新規登録の上限。未消化が多い日は0（溜まっていく一方にしないため） */
+function rvEnrollLimit() { var c = rvCfg(); return rvBacklog() > c.backlogStop ? 0 : c.newPerDay; }
+function rvEnrollLeft() { return Math.max(0, rvEnrollLimit() - rvEnrolledToday()); }
+
+/* ---------------- 予定日のならし（翌日の確認はずらさない） ---------------- */
+function rvSpreadFor(s0, e) {
+  if (e.k === 'a') return 0;
+  var s = {};
+  for (var k in s0) s[k] = s0[k];
+  if (!s.en) { if (e.k === 'n' && e.en) { s.en = 1; s.box = 0; } else return 0; }
+  if (s.mv === e.d) return 0;
+  var t = { p: e.p, d: e.d, f: e.f, t: e.t, k: e.k };
+  rvStep(s, t);
+  var off = s.due - e.d;
+  var win = off >= 30 ? 3 : (off >= 12 ? 2 : (off >= 5 ? 1 : 0));
+  if (!win) return 0;
+  var load = {}, it = rvItems();
+  for (var id in it) { if (id !== String(e.i) && it[id].en) load[it[id].due] = (load[it[id].due] || 0) + 1; }
+  var best = 0, bestN = load[s.due] || 0;
+  for (var x = -win; x <= win; x++) {
+    if (!x || off + x < 2) continue;
+    var n = load[s.due + x] || 0;
+    if (n < bestN) { best = x; bestN = n; }
+  }
+  return best;
+}
+
+/* ---------------- 答え合わせ・付け直し ---------------- */
+function rvEid(id) { return String(id) + '@' + rvNow().toString(36) + Math.random().toString(36).slice(2, 6); }
+/* 答え合わせ・自己採点が確定した瞬間に1回だけ呼ぶ。問題を表示しただけでは呼ばない */
+function rvAnswer(id, pct, opt) {
+  opt = opt || {};
+  rvLoad(); id = String(id);
+  var eid = opt.eid || rvEid(id);
+  if (RV.ev[eid]) return rvResult(eid, true);   /* 同じ回答の二重送信 */
+  var now = rvNow(), s = rvSt(id);
+  var e = { i: id, t: now, d: rvDayOf(now), p: rvClampPct(pct), k: opt.retry ? 'a' : (s.en ? 'r' : 'n'), u: now };
+  if (opt.fmt) e.f = String(opt.fmt);
+  if (e.k === 'n') {
+    if (rvEnrollLeft() > 0) { e.en = 1; delete RV.wait[id]; }
+    else if (!RV.wait[id]) RV.wait[id] = now;   /* 登録の上限を超えた＝登録待ち（自動では登録しない） */
+  }
+  var o = rvSpreadFor(s, e);
+  if (o) e.o = o;
+  RV.ev[eid] = e;
+  delete RV.seen[id];
+  rvSave();
+  rvMirror(id);
+  return rvResult(eid, false);
+}
+function rvResult(eid, dup) {
+  var e = RV.ev[eid], s = rvSt(e.i);
+  return { eid: eid, dup: !!dup, kind: e.k, counted: rvCounted(e), enrolled: !!s.en, waiting: rvWaiting(e.i),
+    newlyEnrolled: e.k === 'n' && !!e.en, grade: rvGradeOf(e.p), box: s.box, due: s.due, relearn: rvRelearn(e.i) };
+}
+/* 採点の押し間違いの訂正。同じ回答の修正なので回数は増やさず、回答前の状態から計算し直す */
+function rvRegrade(eid, pct) {
+  rvLoad();
+  var e = RV.ev[eid];
+  if (!e) return null;
+  e.p = rvClampPct(pct); e.u = Math.max(rvNow(), (e.u || 0) + 1);
+  RV_ITEMS = null;
+  var before = rvReplayOne(e.i, rvEvOf(e.i, eid));
+  delete e.o;
+  var o = rvSpreadFor(before, e);
+  if (o) e.o = o;
+  rvSave();
+  rvMirror(e.i);
+  return rvResult(eid, false);
+}
+/* 箱と期限をアプリ自身の保存先へ映す（既存の画面・同期がそのまま動くように） */
+function rvMirror(id) {
+  var f = rvEnv().put, s = rvSt(id);
+  if (!f || !s.en) return;
+  try {
+    f(String(id), { box: s.box, due: s.due, dueMs: rvDayMs(s.due), dueYmd: rvYmd(s.due), last: s.last || rvNow(),
+      lastYmd: rvYmd(rvDayOf(s.last || rvNow())), grade: s.g, pct: s.g ? RV_PCT[s.g] : null });
+  } catch (e) {}
+}
+/* 回答の記録がある問題だけ映し直す（同期で合流したあとなど） */
+function rvMirrorAll() {
+  rvLoad();
+  var seen = {};
+  for (var k in RV.ev) { var e = RV.ev[k]; if (e && !seen[e.i]) { seen[e.i] = 1; rvMirror(e.i); } }
+}
+
+/* ---------------- 移行と取り込み ----------------
+   既存の箱番号と期限はそのまま「出発点」にする（期限を書き換えない）。新しい決まりは次の回答から。
+   アプリ自身の保存先に、こちらが知らない新しい記録があれば（古い版の画面で解いた・アプリ側の同期で届いた）、
+   その日付が新しいものだけ出発点として取り込む */
+function rvLegacy() {
+  var f = rvEnv().legacy, l = [];
+  try { l = f ? (f() || []) : []; } catch (e) { l = []; }
+  return l;
+}
+function rvBaseOf(x, L) {
+  var box = Math.min(L - 1, Math.max(0, x.box | 0));
+  var due = rvToDay(x.due), last = rvToMs(x.last);
+  if (due == null) due = (last ? rvDayOf(last) : rvToday()) + rvIv()[box];
+  return [box, due, last, last || rvNow()];
+}
+function rvAbsorb() {
+  rvLoad();
+  var L = rvIv().length, it = rvItems(), changed = 0;
+  rvLegacy().forEach(function (x) {
+    if (!x || x.id == null) return;
+    var id = String(x.id), s = it[id], lm = rvToMs(x.last);
+    if (s && s.en) {
+      if (!lm || rvDayOf(lm) <= rvDayOf(s.last || 0)) return;
+    } else if (s && s.n && lm && rvDayOf(lm) <= (s.ad | 0)) return;
+    RV.base[id] = rvBaseOf(x, L);
+    if (s && s.en === 0) delete RV.wait[id];
+    changed++;
+  });
+  if (changed) rvSave();
+  return changed;
+}
+function rvMigrate() {
+  rvLoad();
+  if (RV.mig) return 0;
+  var L = rvIv().length, n = 0;
+  rvLegacy().forEach(function (x) {
+    if (!x || x.id == null) return;
+    RV.base[String(x.id)] = rvBaseOf(x, L);
+    n++;
+  });
+  RV.mig = rvNow();
+  rvSave(false);
+  return n;
+}
+/* 古い回答の記録を箱の状態にまとめる（保存と同期を軽く保つ。回答前からの計算は keepDays 日ぶん残る） */
+function rvCompact() {
+  rvLoad();
+  var cut = rvToday() - rvCfg().keepDays, ids = {}, k;
+  for (k in RV.ev) { var e = RV.ev[k]; if (e && e.d < cut) ids[e.i] = 1; }
+  var n = 0;
+  Object.keys(ids).forEach(function (id) {
+    var all = rvEvOf(id), old = all.filter(function (e) { return e.d < cut; });
+    if (!old.length) return;
+    var s = rvReplayOne(id, old), lastT = old[old.length - 1].t;
+    if (!s.en) return;   /* 登録待ち（初回学習だけ）の記録は残す。消すと「未学習」に見えてしまうため */
+    RV.base[id] = [s.box, s.due, s.last, lastT, s.g, s.ng3];
+    old.forEach(function (e) { delete RV.ev[e._id]; n++; });
+  });
+  if (n) rvSave(false);
+  return n;
+}
+
+/* ---------------- 30問の選び方 ----------------
+   最大20問: 直近でまちがえた・惜しかった・定着が弱い（箱0・1）問題
+   最大10問: それ以外の期限到来から、本来の間隔に対して遅れている割合が大きい順
+   片方が余ればもう片方へ回す。期限が来ていない問題で枠を埋めない */
+function rvWeakKey(s) { return (s.g === 3 ? 0 : s.g === 2 ? 1 : 2) * 1000 + (s.box | 0); }
+function rvLate(id) {
+  var s = rvSt(id), iv = rvIv(), over = rvToday() - s.due;
+  return over / Math.max(1, iv[Math.min(iv.length - 1, s.box | 0)]);
+}
+function rvIsWeak(s) { return s.g === 3 || s.g === 2 || (s.box | 0) <= 1; }
+function rvPick(ids, n) {
+  var c = rvCfg(), due = rvDueIds(ids), it = rvItems();
+  if (n == null) n = rvLeft();
+  n = Math.max(0, Math.min(n, due.length));
+  if (!n) return [];
+  var weak = [], rest = [];
+  due.forEach(function (id) { (rvIsWeak(it[id]) ? weak : rest).push(id); });
+  weak.sort(function (a, b) { var A = it[a], B = it[b]; return rvWeakKey(A) - rvWeakKey(B) || A.due - B.due; });
+  rest.sort(function (a, b) { return rvLate(b) - rvLate(a) || it[a].due - it[b].due; });
+  var wN = Math.round(n * c.weak / Math.max(1, c.cap)), rN = n - wN;
+  var a = weak.slice(0, wN), b = rest.slice(0, rN);
+  if (a.length < wN) b = rest.slice(0, rN + (wN - a.length));
+  if (b.length < rN) a = weak.slice(0, wN + (rN - b.length));
+  /* 2:1 で交互に並べる。時間の上限などで前から切られても、おおむね2対1が保たれる */
+  var out = [], i = 0, j = 0;
+  while (out.length < n && (i < a.length || j < b.length)) {
+    if (i < a.length) out.push(a[i++]);
+    if (out.length < n && i < a.length && (j >= b.length || i % 2)) out.push(a[i++]);
+    if (out.length < n && j < b.length) out.push(b[j++]);
+  }
+  return out.slice(0, n);
+}
+/* どの入口でも出題の前に通す。復習対象の問題は「休止中でない・今日まだ答えていない・残り枠まで」に絞る。
+   未登録の問題（新規学習）はそのまま通す（capAll のときだけ同じ枠で数える） */
+function rvGate(ids) {
+  var c = rvCfg(), left = rvLeft(), out = [], cutCap = 0, cutDone = 0, cutPause = 0;
+  (ids || []).forEach(function (id) {
+    id = String(id);
+    var s = rvSt(id);
+    if (s.en) {
+      if (rvPaused(id)) { cutPause++; return; }
+      if (s.ad === rvToday()) { cutDone++; return; }
+    } else if (!c.capAll) { out.push(id); return; }
+    if (left <= 0) { cutCap++; return; }
+    left--; out.push(id);
+  });
+  return { ids: out, cutCap: cutCap, cutDone: cutDone, cutPause: cutPause };
+}
+/* 出題の直前に、まだ出してよいか（途中で別の端末・別の入口で枠を使い切った場合に止める） */
+function rvServeOk(id, retry) {
+  var s = rvSt(id);
+  if (retry) return rvCanRetry(id);
+  if (!s.en) return !rvCfg().capAll || rvLeft() > 0;
+  return !rvPaused(id) && s.ad !== rvToday() && rvLeft() > 0;
+}
+/* ---- 当日の解き直し（標準オフ。各問題1回・1日3問まで・30問の内数・箱は動かさない） ---- */
+function rvCanRetry(id) {
+  var c = rvCfg();
+  if (!c.retry || rvLeft() <= 0 || rvRetryDone() >= c.retryMax) return false;
+  return !rvTodayEv().some(function (e) { return e.k === 'a' && String(e.i) === String(id); });
+}
+function rvRetryPick(ids) {
+  var c = rvCfg(), room = Math.min(c.retryMax - rvRetryDone(), rvLeft()), out = [];
+  if (!c.retry || room <= 0) return [];
+  (ids || []).forEach(function (id) { id = String(id); if (out.length < room && out.indexOf(id) < 0 && rvCanRetry(id)) out.push(id); });
+  return out;
+}
+
+/* ---------------- 休止・学び直し・登録待ち ---------------- */
+function rvPause(id) { rvLoad(); RV.pause[String(id)] = { until: rvToday() + rvCfg().pauseDays, t: rvNow() }; rvSave(); }
+function rvResume(id) { rvLoad(); RV.pause[String(id)] = { until: 0, t: rvNow() }; rvSave(); }
+function rvPausedIds() { rvLoad(); return Object.keys(RV.pause).filter(rvPaused); }
+function rvRelearnIds() { return rvLiveIds().filter(function (id) { return rvRelearn(id) && !rvPaused(id); }); }
+function rvWaitIds() {
+  rvLoad();
+  var live = {}; rvLiveIds().forEach(function (id) { live[id] = 1; });
+  return Object.keys(RV.wait).filter(function (id) { return !rvEnrolled(id) && (live[id] || !rvEnv().ids); })
+    .sort(function (a, b) { return RV.wait[a] - RV.wait[b]; });
+}
+/* 登録待ちを、今日の新規登録の残りぶんまで本人の操作で登録する（自動では登録しない）。
+   登録した問題は今日の復習に入る（最初の確認） */
+function rvEnrollWaiting(n) {
+  var room = Math.min(n == null ? Infinity : n, rvEnrollLeft()), ids = rvWaitIds().slice(0, room), now = rvNow();
+  ids.forEach(function (id, i) {
+    RV.ev['e:' + id] = { i: id, t: now + i, d: rvDayOf(now), k: 'e', u: now };
+    delete RV.wait[id];
+  });
+  if (ids.length) { rvSave(); ids.forEach(rvMirror); }
+  return ids;
+}
+
+/* ---------------- 途中でやめた回の保留（この端末だけ） ---------------- */
+function rvHoldKey() { return rvKey() + '_hold'; }
+function rvHoldSave(h) { try { if (h && h.ids && h.ids.length) localStorage.setItem(rvHoldKey(), JSON.stringify(h)); else localStorage.removeItem(rvHoldKey()); } catch (e) {} }
+function rvHold() { try { var h = JSON.parse(localStorage.getItem(rvHoldKey()) || 'null'); return h && Array.isArray(h.ids) && h.ids.length ? h : null; } catch (e) { return null; } }
+function rvHoldClear() { try { localStorage.removeItem(rvHoldKey()); } catch (e) {} }
+
+/* ---------------- 合言葉で端末間を合流させる ----------------
+   ドキュメントは reviewLists/<合言葉>__rv_<app>。書き込みはトランザクションで
+   「読んで合流してから書く」ので、2台が続けて書いても片方の回答が消えない。
+   回答は eid ごとに合流するので、同じ回答が何度届いても回数も箱も1回ぶん */
+function rvMerge(a, b) {
+  a = rvClean(a); b = rvClean(b);
+  var o = rvBlank(), k;
+  o.mig = Math.min(a.mig || Infinity, b.mig || Infinity); if (!isFinite(o.mig)) o.mig = 0;
+  for (k in a.ev) o.ev[k] = a.ev[k];
+  for (k in b.ev) { var x = o.ev[k], y = b.ev[k]; if (!x || (y && (y.u || 0) > (x.u || 0))) o.ev[k] = y; }
+  for (k in a.base) o.base[k] = a.base[k];
+  for (k in b.base) { var p = o.base[k], q = b.base[k]; if (!p || (q && (q[3] || 0) > (p[3] || 0))) o.base[k] = q; }
+  ['wait', 'seen'].forEach(function (f) {
+    for (k in a[f]) o[f][k] = a[f][k];
+    for (k in b[f]) o[f][k] = o[f][k] ? Math.min(o[f][k], b[f][k]) : b[f][k];
+  });
+  for (k in a.pause) o.pause[k] = a.pause[k];
+  for (k in b.pause) { var u = o.pause[k], v = b.pause[k]; if (!u || (v && (v.t || 0) > (u.t || 0))) o.pause[k] = v; }
+  o.cfg = (b.cfg.t || 0) > (a.cfg.t || 0) ? b.cfg : a.cfg;
+  return o;
+}
+var RV_SYNC = { state: 'off', ref: null, timer: null, busy: false, again: false, ready: null };
+var RV_FB = { apiKey: 'AIzaSyASWojYpZ3KJBYG9V30Y4BmplUFORYOelw', authDomain: 'ai-english-review.firebaseapp.com',
+  projectId: 'ai-english-review', storageBucket: 'ai-english-review.firebasestorage.app',
+  messagingSenderId: '146537476580', appId: '1:146537476580:web:4ef3dfdf9c0969f25b17f1' };
+function rvSid() { var v = null; try { v = localStorage.getItem('aien_sync_id'); } catch (e) {} return (v && v !== '__none__') ? v : null; }
+function rvScript(src) {
+  return new Promise(function (ok, ng) {
+    if (typeof document === 'undefined' || !document.createElement) return ng(new Error('no dom'));
+    var s = document.createElement('script'); s.src = src; s.onload = ok; s.onerror = ng;
+    (document.head || document.body).appendChild(s);
+  });
+}
+/* ほかの部品（SNSゲート・受け箱など）がもう Firebase を読み込み中なら、二重に読まずに待つ */
+function rvWaitFb(G, ms) {
+  return new Promise(function (ok, ng) {
+    var t0 = Date.now();
+    (function tick() {
+      if (G.firebase && G.firebase.firestore) return ok();
+      if (Date.now() - t0 > ms) return ng(new Error('timeout'));
+      setTimeout(tick, 200);
+    })();
+  });
+}
+function rvDb() {
+  var G = (typeof window !== 'undefined') ? window : {};
+  var FB = 'https://www.gstatic.com/firebasejs/10.14.1/';
+  var loading = typeof document !== 'undefined' && document.querySelector && document.querySelector('script[src*="firebase-app-compat"]');
+  var p = (G.firebase && G.firebase.firestore) ? Promise.resolve()
+    : loading ? rvWaitFb(G, 8000)
+    : (G.firebase ? Promise.resolve() : rvScript(FB + 'firebase-app-compat.js'))
+      .then(function () { return G.firebase.firestore ? null : rvScript(FB + 'firebase-firestore-compat.js'); });
+  return p.then(function () {
+    var fb = G.firebase, a = null;
+    try { a = fb.app('rv'); } catch (e) { a = fb.initializeApp(RV_FB, 'rv'); }   /* 名前つきのアプリにして、各アプリの初期化とぶつけない */
+    return a.firestore();
+  });
+}
+function rvTimeout(p, ms) { return Promise.race([p, new Promise(function (_, ng) { setTimeout(function () { ng(new Error('timeout')); }, ms); })]); }
+function rvAdopt(remote) {
+  var before = rvJson();
+  RV = rvMerge(RV, remote);
+  var changed = rvJson() !== before;
+  if (changed) { rvSave(false); rvMirrorAll(); }
+  return changed;
+}
+function rvPull() {
+  var sid = rvSid();
+  if (!sid) { RV_SYNC.state = 'off'; return Promise.resolve(false); }
+  RV_SYNC.state = 'busy';
+  return rvTimeout(rvDb().then(function (db) {
+    RV_SYNC.ref = db.collection('reviewLists').doc(sid + '__rv_' + rvEnv().app);
+    return RV_SYNC.ref.get();
+  }), 6000).then(function (snap) {
+    var changed = false;
+    if (snap && snap.exists) {
+      var d = snap.data();
+      if (d && typeof d.json === 'string') { try { changed = rvAdopt(JSON.parse(d.json)); } catch (e) {} }
+    }
+    RV_SYNC.state = 'ok';
+    rvSchedulePush(300);
+    return changed;
+  }).catch(function () { RV_SYNC.state = 'error'; return false; });
+}
+function rvSchedulePush(ms) {
+  if (!rvSid() || typeof setTimeout === 'undefined') return;
+  if (RV_SYNC.timer) clearTimeout(RV_SYNC.timer);
+  RV_SYNC.timer = setTimeout(rvPush, ms == null ? 1200 : ms);
+}
+function rvPush() {
+  RV_SYNC.timer = null;
+  if (!RV_SYNC.ref) return;
+  if (RV_SYNC.busy) { RV_SYNC.again = true; return; }
+  RV_SYNC.busy = true;
+  var ref = RV_SYNC.ref, changed = false;
+  ref.firestore.runTransaction(function (tx) {
+    return tx.get(ref).then(function (snap) {
+      var d = snap && snap.exists ? snap.data() : null, remote = null;
+      if (d && typeof d.json === 'string') { try { remote = JSON.parse(d.json); } catch (e) { remote = null; } }
+      if (remote) changed = rvAdopt(remote);
+      tx.set(ref, { json: rvJson(), at: rvNow() });
+    });
+  }).then(function () {
+    RV_SYNC.busy = false; RV_SYNC.state = 'ok';
+    if (changed) rvChanged();
+    if (RV_SYNC.again) { RV_SYNC.again = false; rvSchedulePush(300); }
+  }).catch(function () {
+    RV_SYNC.busy = false; RV_SYNC.state = 'error';
+    rvSchedulePush(15000);   /* オフラインなどで失敗したら、あとで送り直す（端末には保存ずみ） */
+  });
+}
+function rvChanged() { var f = rvEnv().onChange; if (f) { try { f(); } catch (e) {} } }
+
+/* 起動時に1回。移行 → 取り込み → 古い記録をまとめる → 同期（終わったら onChange） */
+function rvInit() {
+  rvLoad();
+  rvMigrate();
+  rvAbsorb();
+  rvCompact();
+  if (typeof document !== 'undefined' && document.addEventListener) {
+    document.addEventListener('visibilitychange', function () {
+      if (document.visibilityState === 'hidden' && RV_SYNC.timer) { clearTimeout(RV_SYNC.timer); rvPush(); }
+    });
+  }
+  /* Firebase をまだ読んでいないページ（表現メモ）は、ほかの部品の読み込みが先に始まるよう少し待ってから合流する */
+  var G = (typeof window !== 'undefined') ? window : {}, wait = (G.firebase && G.firebase.firestore) || !rvSid() ? 0 : 1500;
+  RV_SYNC.ready = new Promise(function (ok) { if (wait) setTimeout(ok, wait); else ok(); })
+    .then(rvPull).then(function (ch) { if (ch) rvChanged(); return ch; });
+  return RV_SYNC.ready;
+}
+
+/* ---------------- 画面の部品 ---------------- */
+function rvEsc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+function rvLabel(id) { var f = rvEnv().label; try { return f ? (f(id) || String(id)) : String(id); } catch (e) { return String(id); } }
+/* 「このアプリの今日の復習：12／30問」。未消化の総数は大きく出さない（詳細の中だけ） */
+function rvBarHtml(ids) {
+  var c = rvCfg(), done = rvDone(), lim = rvLimit(), left = rvLeft(), u = rvUnit();
+  var due = rvDueIds(ids).length, pct = Math.min(100, Math.round(done / Math.max(1, lim) * 100));
+  var msg;
+  if (left <= 0) msg = '<b>このアプリの今日の復習はここまでです。</b>おつかれさまでした。解説・一覧・履歴はこのまま見られます。';
+  else if (!due) msg = done ? '期限が来ている問題はもうありません。<b>今日の復習は完了です</b>（' + c.cap + u + 'に届かなくても大丈夫です）。'
+    : '今日は期限が来ている問題がありません。新しく覚える入口から進められます。';
+  else msg = '今日はあと最大 <b>' + Math.min(left, due) + '</b>' + u + '。直近でまちがえた・弱い問題を最大' + c.weak + u + '、長く待っている問題を最大' + (c.cap - c.weak) + u + 'の割合で選びます。';
+  var tnote = lim < c.cap ? '<span class="rv-bar-tnote">（「今日つかう時間」で ' + lim + u + 'まで）</span>' : '';
+  return '<div class="rv-bar' + (left <= 0 ? ' rv-full' : '') + '">'
+    + '<div class="rv-bar-top">このアプリの今日の復習：<b>' + done + '</b>／' + lim + u + tnote + '</div>'
+    + '<div class="rv-meter"><i style="width:' + pct + '%"></i></div>'
+    + '<div class="rv-bar-sub">' + msg + '</div></div>';
+}
+/* 3段階の自己採点ボタン。fn は押したときに呼ぶ関数名（点 100/60/0 を渡す）。
+   opt.hint=true（ヒントを見た）なら①は押せない。opt.sel=いまの点（付け直し画面で印を付ける）
+   opt.ref=自動判定の参考（「一致率72%」など） */
+function rvGradeHtml(fn, opt) {
+  opt = opt || {};
+  var sel = opt.sel == null ? null : rvGradeOf(opt.sel);
+  var b = function (g, cls, ttl, sub) {
+    var dis = g === 1 && opt.hint;
+    return '<button type="button" class="rv-g ' + cls + (sel === g ? ' rv-on' : '') + '"' + (dis ? ' disabled' : '')
+      + ' onclick="' + fn + '(' + RV_PCT[g] + ')"><b>' + ttl + '</b><small>' + sub + '</small></button>';
+  };
+  return '<div class="rv-grade">'
+    + '<div class="rv-grade-q">' + rvEsc(opt.q || '答えやヒントを見る前に、自分で思い出せましたか？') + '</div>'
+    + (opt.ref ? '<div class="rv-grade-ref">' + opt.ref + '</div>' : '')
+    + b(1, 'rv-g1', '① 思い出せた', '答え・ヒントを見る前に、自力で言えた／書けた')
+    + b(2, 'rv-g2', '② 惜しい', '主要部分は出たが一部ちがった／ヒントが必要だった')
+    + b(3, 'rv-g3', '③ 思い出せなかった', '出てこなかった・主要部分がちがった・答えを見て分かった')
+    + (opt.hint ? '<div class="rv-grade-ref">ヒントを見たので、②までで付けます。</div>' : '')
+    + (opt.fix ? '<div class="rv-grade-ref">付け直しても回数は増えません（回答前の状態から計算し直します）。</div>' : '')
+    + '</div>';
+}
+/* 答えたあとの短い案内（新規登録・登録待ち・学び直し候補） */
+function rvNoteHtml(r) {
+  if (!r) return '';
+  var c = rvCfg(), u = rvUnit(), h = '';
+  if (r.kind === 'n' && r.newlyEnrolled) h = '復習対象に登録しました（今日の新規登録 ' + rvEnrolledToday() + '／' + rvEnrollLimit() + '件）。';
+  else if (r.kind === 'n' && r.waiting) h = '初回学習ずみ・<b>登録待ち</b>です（今日の新規登録は' + (rvEnrollLimit() ? '上限' + rvEnrollLimit() + '件に達しました' : '、未消化が' + c.backlogStop + u + 'を超えているので0件です') + '）。';
+  else if (r.kind === 'a') h = '解き直し（箱は動かしません。最初の回答にもとづく確認がそのまま残ります）。';
+  if (r.relearn) h += (h ? '<br>' : '') + '<b>③が' + c.relearnN + '回続きました。</b>「学び直し候補」に入りました（復習のくわしい状況から確認できます）。';
+  return h ? '<div class="rv-note">' + h + '</div>' : '';
+}
+function rvRowHtml(id, btns) {
+  return '<div class="rv-row"><span class="rv-row-l">' + rvEsc(rvLabel(id)) + '</span><span class="rv-row-b">' + btns + '</span></div>';
+}
+/* 詳細（未消化の総数・登録待ち・休止・学び直し候補・設定）。<details> で閉じておく */
+function rvPanelHtml(ids) {
+  var c = rvCfg(), u = rvUnit(), due = rvDueIds(ids).length, all = (ids || rvLiveIds()).map(String);
+  var en = all.filter(rvEnrolled).length, wait = rvWaitIds(), paused = rvPausedIds(), rel = rvRelearnIds();
+  var viewed = all.filter(function (id) { return rvStage(id) === 1; }).length;
+  var el = rvEnrollLimit(), eLeft = rvEnrollLeft(), j = function (s) { return JSON.stringify(String(s)).replace(/"/g, '&quot;'); };
+  var h = '<details class="rv-panel"><summary>復習のくわしい状況・設定</summary>'
+    + '<div class="rv-grid">'
+    + '<div><b>' + due + '</b><span>期限が来ている（未消化）</span></div>'
+    + '<div><b>' + en + '</b><span>復習対象</span></div>'
+    + '<div><b>' + wait.length + '</b><span>登録待ち</span></div>'
+    + '<div><b>' + viewed + '</b><span>閲覧のみ</span></div>'
+    + '<div><b>' + paused.length + '</b><span>休止中</span></div>'
+    + '<div><b>' + rel.length + '</b><span>学び直し候補</span></div>'
+    + '</div>'
+    + '<div class="rv-p">今日の新規登録：<b>' + rvEnrolledToday() + '</b>／' + el + '件'
+    + (el === 0 ? '（期限の来た未消化が' + c.backlogStop + u + 'を超えているので、今日は登録しません）' : '') + '</div>';
+  if (wait.length) {
+    h += '<div class="rv-p">登録待ちは、初回学習は済んでいるが、まだ復習に入れていない問題です（自動では登録しません）。'
+      + (eLeft ? '<br><button type="button" class="rv-btn" onclick="rvUi(\'enroll\')">登録待ちから ' + Math.min(eLeft, wait.length) + '件を復習に入れる</button>' : '')
+      + '</div>';
+  }
+  if (due > c.cap * 3) {
+    h += '<div class="rv-p rv-warn">期限の来た問題が' + c.cap + u + 'の枠よりかなり多い状態です。古い期限は書き換えず、少しずつ出します。'
+      + '早く減らしたいときは、1日の新規登録を減らす（いまは' + c.newPerDay + '件）か、学び直し候補を休止してください。</div>';
+  }
+  if (rel.length) {
+    h += '<div class="rv-h">学び直し候補（③が' + c.relearnN + '回続いた問題）</div>'
+      + '<div class="rv-p">同じ形式で出し続ける前に、例文・まぎらわしい語・文の構造を確かめると効きます。休止は本人が選んだときだけです。</div>'
+      + rel.slice(0, 30).map(function (id) {
+        return rvRowHtml(id, (rvEnv().detail ? '<button type="button" class="rv-btn" onclick="rvUi(\'detail\',' + j(id) + ')">確かめる</button>' : '')
+          + '<button type="button" class="rv-btn" onclick="rvUi(\'pause\',' + j(id) + ')">' + c.pauseDays + '日休む</button>');
+      }).join('');
+  }
+  if (paused.length) {
+    h += '<div class="rv-h">休止中（通常の出題から外しています。習得済みとは別です）</div>'
+      + paused.map(function (id) {
+        return rvRowHtml(id, '<span class="rv-mute">' + rvMd(RV.pause[id].until) + 'まで</span>'
+          + '<button type="button" class="rv-btn" onclick="rvUi(\'resume\',' + j(id) + ')">戻す</button>');
+      }).join('');
+  }
+  h += '<div class="rv-h">設定（このアプリだけ）</div>'
+    + '<label class="rv-chk"><input type="checkbox"' + (c.retry ? ' checked' : '') + ' onchange="rvUi(\'retry\',this.checked)"> 当日の解き直し（まちがえた問題を最後にもう一度。1日' + c.retryMax + u + 'まで・' + c.cap + u + 'の内数・箱は動かさない）</label>'
+    + '<label class="rv-chk"><input type="checkbox"' + (c.capAll ? ' checked' : '') + ' onchange="rvUi(\'capAll\',this.checked)"> 新規学習も含めて、このアプリの全出題を1日' + c.cap + u + '以内にする（オフ＝復習' + c.cap + u + 'と新規学習は別枠）</label>'
+    + '<div class="rv-chk">1日の新規登録 '
+    + [0, 3, 5, 10].map(function (n) { return '<button type="button" class="rv-btn' + (c.newPerDay === n ? ' rv-on' : '') + '" onclick="rvUi(\'newPerDay\',' + n + ')">' + n + '件</button>'; }).join('')
+    + '</div>'
+    + '<div class="rv-p rv-mute">回数は日本時間の0時で切り替わります。合言葉を入れた端末どうしで回数・箱・休止・設定を合流させます。'
+    + '2台を同時に使ったり、オフラインで解いたりすると、合流するまでのあいだは片方の回数が見えないので、その日だけ' + c.cap + u + 'を少し超えることがあります（合流したあとは超えたぶんを数えて止めます）。</div>'
+    + '</details>';
+  return h;
+}
+function rvUi(act, v) {
+  if (act === 'pause') rvPause(v);
+  else if (act === 'resume') rvResume(v);
+  else if (act === 'retry') rvSetCfg('retry', !!v);
+  else if (act === 'capAll') rvSetCfg('capAll', !!v);
+  else if (act === 'newPerDay') rvSetCfg('newPerDay', v | 0);
+  else if (act === 'enroll') rvEnrollWaiting();
+  else if (act === 'detail') return rvShowDetail(v);
+  rvChanged();
+}
+function rvShowDetail(id) {
+  if (typeof document === 'undefined') return;
+  var f = rvEnv().detail, body = '';
+  try { body = f ? f(id) : ''; } catch (e) { body = ''; }
+  var old = document.getElementById('rv-modal');
+  if (old && old.parentNode) old.parentNode.removeChild(old);
+  var m = document.createElement('div');
+  m.id = 'rv-modal'; m.className = 'rv-modal';
+  m.innerHTML = '<div class="rv-modal-in"><div class="rv-h">学び直し：' + rvEsc(rvLabel(id)) + '</div>' + body
+    + '<div class="rv-modal-b"><button type="button" class="rv-btn" onclick="rvUi(\'pause\',' + JSON.stringify(String(id)).replace(/"/g, '&quot;') + ');rvCloseDetail()">' + rvCfg().pauseDays + '日休む</button>'
+    + '<button type="button" class="rv-btn rv-on" onclick="rvCloseDetail()">閉じる</button></div></div>';
+  m.onclick = function (e) { if (e.target === m) rvCloseDetail(); };
+  document.body.appendChild(m);
+}
+function rvCloseDetail() { var m = document.getElementById('rv-modal'); if (m && m.parentNode) m.parentNode.removeChild(m); }
+/* RV:JS:END */
 
 /* ============ やる気の仕掛け ============ */
 const MV_ENV = {
@@ -1236,7 +2106,8 @@ const POOLS = {
   seen:   { name:'学習ずみ',   desc:'一度でも答え合わせしたフレーズ',       get:()=>live().filter(i=> isSeen(i.id)) },
   rand:   { name:'完全ランダム',desc:'学習ずみも未学習も混ぜて出す',         get:()=>live() },
   fav:    { name:'お気に入り', desc:'星を付けたフレーズだけ',               get:()=>live().filter(i=> isFav(i.id)) },
-  review: { name:'今日の復習', desc:'期日が来た復習だけ',                   get:()=>live().filter(i=>{ const r=srs[i.id]; return r && r.next <= today(); }) }
+  review: { name:'今日の復習', desc:'期日が来た復習を、まちがえた・弱いフレーズ20＋長く待っているフレーズ10の割合で（1日30問まで）',
+            get:()=>{ const L = live(), m = new Map(L.map(i => [i.id, i])); return rvPick(L.map(i => i.id)).map(id => m.get(id)).filter(Boolean); } }
 };
 
 /* ============ 画面 ============ */
@@ -1257,6 +2128,10 @@ function refresh(){
   document.getElementById('syncstat').textContent = syncStatusLabel();
   const dn = ALL.filter(i=>isDel(i.id)).length;
   document.getElementById('delbtn').textContent = dn ? `削除したフレーズ（${dn}）` : '';
+  document.getElementById('rvBar').innerHTML = rvBarHtml(L.map(i => i.id));
+  document.getElementById('rvPanel').innerHTML = rvPanelHtml(L.map(i => i.id));
+  const hold = rvHold();
+  document.getElementById('holdBox').innerHTML = hold ? `<button style="width:100%;margin-top:10px" onclick="resumeHold()">途中でやめた回の続き（${hold.ids.length}問）</button>` : '';
 }
 function saveOpt(){
   opt.limit = +document.getElementById('limit').value;
@@ -1335,25 +2210,65 @@ function closeSheet(){ document.getElementById('sheet').classList.add('hidden');
 let queue = [], qi = 0, cornerKey = 'rand', log = [], timerId = null, revealed = false, leftover = [];
 function shuffle(a){ a=a.slice(); for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]];} return a; }
 
+/* どの入口でも、復習対象のフレーズは「休止中でない・今日まだ答えていない・今日の残り枠のぶんまで」（rv.js）。
+   まだ登録していないフレーズ（新しく覚えるフレーズ）はそのまま出す */
+function gate(list){
+  const g = rvGate(list.map(i => i.id)), keep = new Set(g.ids);
+  const out = list.filter(i => keep.has(String(i.id)));
+  if(list.length && !out.length){
+    alert(rvLeft() <= 0 ? 'このアプリの今日の復習はここまでです。\n一覧・履歴はこのまま見られます（新しいフレーズは「未学習」から）。'
+                        : 'この範囲は、今日すでに答えたフレーズ・休止中のフレーズだけです。');
+    return null;
+  }
+  return out;
+}
 function begin(n){
   const key = pendingKey; closeSheet();
   cornerKey = key;
-  const pool = shuffle(POOLS[key].get());
+  const raw = POOLS[key].get();
+  const pool = gate(key === 'review' ? raw : shuffle(raw));
+  if(!pool) return;
   queue = pool.slice(0, n); leftover = pool.slice(n);
-  qi = 0; log = [];
+  qi = 0; log = []; cut = 0;
+  holdPrev = (((rvHold() || {}).ids) || []).filter(id => !queue.some(i => i.id === id));
   go('play'); show();
 }
 function resume(){
   if(!leftover.length) return;
   const n = Math.min(queue.length, leftover.length);
-  queue = leftover.slice(0, n); leftover = leftover.slice(n);
-  qi = 0; log = [];
+  const next = gate(leftover);
+  if(!next) return;
+  queue = next.slice(0, n); leftover = next.slice(n);
+  qi = 0; log = []; cut = 0;
+  go('play'); show();
+}
+/* 途中でやめた回の保留（未回答のフレーズをこの端末に残し、次に開いたとき続きから） */
+let holdPrev = [], cut = 0, lastEid = null;
+function saveHold(){
+  const rest = queue.slice(qi).concat(leftover).map(i => i.id).concat(holdPrev);
+  rvHoldSave(rest.length ? { ids: Array.from(new Set(rest)), key: cornerKey, at: Date.now() } : null);
+}
+function resumeHold(){
+  const h = rvHold();
+  if(!h) return;
+  const list = gate(h.ids.map(id => BY_ID[id]).filter(i => i && !isDel(i.id)));
+  rvHoldClear();
+  if(!list){ refresh(); return; }
+  cornerKey = POOLS[h.key] ? h.key : 'rand';
+  queue = list.slice(0, 20); leftover = list.slice(20);
+  qi = 0; log = []; cut = 0; holdPrev = [];
   go('play'); show();
 }
 
 function show(){
   clearInterval(timerId); revealed = false;
+  /* 出す直前に確かめる（別の入口・別の端末で今日の枠を使い切った／今日もう答えたフレーズは飛ばす） */
+  while(qi < queue.length && !rvServeOk(queue[qi].id)){ queue.splice(qi, 1); cut++; }
+  if(qi >= queue.length){ return log.length ? finish() : (alert('このアプリの今日の復習はここまでです。'), refresh(), go('home')); }
   cur = queue[qi];
+  if(!rvEnrolled(cur.id)) rvView(cur.id);   /* 閲覧した（答え合わせ前） */
+  saveHold();
+  document.getElementById('p-prevfix').innerHTML = prevFixHtml();
   document.getElementById('p-count').textContent = `${POOLS[cornerKey].name}　${qi+1} / ${queue.length}`;
   document.getElementById('p-solved').textContent = log.length ? `解いた ${log.length}問` : '';
   document.getElementById('p-pattern').textContent = cur.patternJa;
@@ -1407,25 +2322,42 @@ function reveal(){
   const les = DATA.lessons.find(l=>l.lessonId===cur.lesson) || {};
   document.getElementById('p-src').innerHTML =
     `出典 <a href="${cur.src}" target="_blank" rel="noopener" style="color:var(--sub)">${les.postedAt||''} のリール</a>`;
+  document.getElementById('p-score').innerHTML = rvGradeHtml('grade', { q: '答えを見る前に、英語を声に出して言えましたか？（押すと次へ）' });
   say(`audio/${cur.id}.mp3`);
 }
 
-/* 答え合わせ＝この瞬間に記録が確定する（途中でやめても残る） */
+/* 答え合わせ＝この瞬間に記録が確定する（途中でやめても残る）。押したら次へ。
+   押し間違いは次の問題の「直前の採点を直す」で付け直せる（回数は増やさない） */
 function grade(pct){
   if (window.SNSGate) window.SNSGate.count();   /* SNSゲート：答え合わせ1問ぶん */
-  const r = srs[cur.id] || { box:0 };
-  r.box  = pct >= 60 ? Math.min(r.box + 1, BOX_DAYS.length - 1) : 0;
-  r.next = addDays(BOX_DAYS[r.box]);
-  r.last = today(); r.pct = pct;
+  const res = rvAnswer(cur.id, pct, { fmt: 'say' });
+  const r = srs[cur.id] || {};   /* 登録待ち（まだ復習に入れていない）のフレーズは箱・期限を持たない */
+  r.pct = pct;
+  if(!res.enrolled){ r.last = today(); r.wait = 1; }
   srs[cur.id] = r; saveJSON(SRS_KEY, srs); syncPush(SRS_KEY);
 
   if(!isSeen(cur.id)){ seen.push(cur.id); saveJSON(SEEN_KEY, seen); syncPush(SEEN_KEY); }
   mvGain(pct >= 80 ? true : (pct >= 40 ? 'half' : false));
   hsAdd({ q:cur.ja, a:cur.en, p:pct, k:'瞬間英作文' });   /* 学習の履歴（いつ・何を・何％で） */
 
-  log.push({ id:cur.id, ja:cur.ja, en:cur.en, pct });
+  log.push({ id:cur.id, ja:cur.ja, en:cur.en, pct, eid: res.eid, res });
   qi++;
   if(qi >= queue.length) finish(); else show();
+}
+/* 直前のフレーズの採点を直す（同じ回答の修正。回答前の状態から計算し直す） */
+function fixPrev(pct){
+  const x = log[log.length - 1];
+  if(!x || !x.eid) return;
+  rvRegrade(x.eid, pct);
+  x.pct = pct;
+  const r = srs[x.id]; if(r){ r.pct = pct; saveJSON(SRS_KEY, srs); syncPush(SRS_KEY); }
+  document.getElementById('p-prevfix').innerHTML = prevFixHtml();
+}
+function prevFixHtml(){
+  const x = log[log.length - 1];
+  if(!x || !x.eid) return '';
+  return (x.res ? rvNoteHtml(x.res) : '') + `<details class="rv-panel"><summary>直前の採点を直す（いま: ${rvGradeLabel(rvGradeOf(x.pct))}）</summary>`
+    + rvGradeHtml('fixPrev', { sel: x.pct, fix: true, q: '「' + x.ja + '」の採点' }) + '</details>';
 }
 
 /* 出題中の削除＝このフレーズを外して次へ。答え合わせはしないので記録は付かない。一覧の「削除したフレーズ」から戻せる */
@@ -1446,9 +2378,10 @@ function quit(){
   if(aud) aud.pause();
   const rest = queue.length - log.length;
   const msg = log.length
-    ? `ここまでの${log.length}問は学習ずみとして残ります。残り${rest}問をやめますか？`
-    : 'まだ1問も答え合わせしていません。やめますか？';
+    ? `ここまでの${log.length}問は学習ずみとして残ります。残り${rest}問は「途中でやめた回の続き」に残ります。やめますか？`
+    : 'まだ1問も答え合わせしていません。やめますか？（フレーズは「途中でやめた回の続き」に残ります）';
   if(!confirm(msg)) return;
+  saveHold();
   leftover = queue.slice(qi).concat(leftover);
   log.length ? finish(true) : go('home');
 }
@@ -1457,22 +2390,28 @@ function finish(partial){
   clearInterval(timerId);
   if(aud) aud.pause();
   hsFlush();   /* この回の履歴をクラウドへ送る（結果画面が区切り） */
+  if(!partial) rvHoldSave(holdPrev.length || leftover.length ? { ids: leftover.map(i => i.id).concat(holdPrev), key: cornerKey, at: Date.now() } : null);
   const n = log.length, avg = n ? Math.round(log.reduce((s,x)=>s+x.pct,0)/n) : 0;
   document.getElementById('r-title').textContent = partial ? `ここまで${n}問、記録しました` : 'おつかれさま';
   document.getElementById('r-n').textContent = n;
   document.getElementById('r-avg').textContent = avg + '%';
-  document.getElementById('r-weak').textContent = log.filter(x=>x.pct<60).length;
-  document.getElementById('r-list').innerHTML = log.map(x =>
+  document.getElementById('r-weak').textContent = log.filter(x=>x.pct<80).length;
+  document.getElementById('r-list').innerHTML = (rvLeft() <= 0 ? '<div class="note">このアプリの今日の復習はここまでです。一覧・履歴はこのまま見られます。</div>' : '')
+    + (cut ? `<div class="note">今日の枠を使い切った・今日もう答えたフレーズ ${cut}問は出しませんでした。</div>` : '')
+    + '<div class="note" style="margin-bottom:8px">言えなかったフレーズは明日の復習に出ます（当日中にはくり返しません）。</div>'
+    + log.map((x, i) =>
     `<div class="item"><div class="body"><div class="ij">${x.ja}
-      <span class="pill" style="background:transparent;color:${x.pct>=60?'var(--ok)':'var(--ng)'}">${x.pct}%</span></div>
-      <div class="ie">${x.en}</div></div></div>`).join('');
+      <span class="pill" style="background:transparent;color:${x.pct>=80?'var(--ok)':'var(--ng)'}">${rvGradeLabel(rvGradeOf(x.pct)).slice(0, 1)} ${x.pct}%</span></div>
+      <div class="ie">${x.en}</div>
+      ${x.eid ? `<details class="rv-panel"><summary>採点を直す</summary>${rvGradeHtml('fixAt' + i, { sel: x.pct, fix: true, q: '' })}</details>` : ''}</div></div>`).join('');
+  log.forEach((x, i) => { window['fixAt' + i] = pct => { rvRegrade(x.eid, pct); x.pct = pct; const r = srs[x.id]; if(r){ r.pct = pct; saveJSON(SRS_KEY, srs); syncPush(SRS_KEY); } finish(partial); }; });
   const more = document.getElementById('r-more');
   more.classList.toggle('hidden', !leftover.length);
   more.textContent = `残り${leftover.length}問を続ける`;
   go('result');
 }
 
-refresh(); renderList(); mvRender(); hsRender(); initSync();
+rvInit(); refresh(); renderList(); mvRender(); hsRender(); initSync();
 
 /* SNSGATE:JS:BEGIN */
 /* SNSゲート（5サイト共通）。正本は .claude/skills_assets/sns-gate/gate.js → inject.py で配る。
