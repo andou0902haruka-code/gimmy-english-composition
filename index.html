@@ -4,169 +4,107 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Gimmy英作文</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,500;6..72,600&family=Zen+Kaku+Gothic+New:wght@500;700;900&display=swap">
 <style>
-/* 見た目の考え方: リールの「日本語 → 3,2,1,0 → 英語」の字幕画面を出題パネルにする。
-   目立たせるのは出題パネルだけ。ホームは区切り線で静かに並べる。
-   黄色(--caption)は字幕の色。残り時間のバーと、答えの英文に引くマーカーだけに使う */
 :root{
-  --bg:#eef1f4; --card:#fff; --ink:#172231; --sub:#5a6676; --line:#d5dce4;
-  --accent:#2457d6; --accent-soft:#e6edfb;
-  --screen:#1b2a3f; --on-screen:#fff; --on-screen-sub:#a9b6c8;
-  --caption:#ffd43b; --marker:#ffe27a;
-  --ok:#1f7a4d; --warn:#a15c00; --ng:#c0352b;
-  --r:16px;
-  --c-new:#2457d6; --c-seen:#0f7a8a; --c-rand:#7046c8; --c-fav:#c98a00; --c-rev:#1f7a4d;
-  --ja:"Zen Kaku Gothic New","Hiragino Sans","Noto Sans JP",sans-serif;
-  --en:"Newsreader","Hiragino Mincho ProN",Georgia,serif;
+  --bg:#f6f4ef; --card:#fff; --ink:#1c1b19; --sub:#6b6862; --line:#e2ded4;
+  --accent:#c2410c; --accent-soft:#fff1e9;
+  --ok:#15803d; --warn:#b45309; --ng:#b91c1c;
+  --shadow:0 1px 2px rgba(0,0,0,.05),0 8px 24px -12px rgba(0,0,0,.18);
+  --r:14px;
+  --c-new:#c2410c; --c-seen:#0e7490; --c-rand:#6d28d9; --c-fav:#b45309; --c-rev:#15803d;
 }
 @media (prefers-color-scheme:dark){
   :root:not([data-theme="light"]){
-    --bg:#0f1620; --card:#172130; --ink:#e6ecf2; --sub:#9aa7b6; --line:#2a3646;
-    --accent:#8aaeff; --accent-soft:#1d2b45;
-    --screen:#1f3049; --on-screen:#f3f6fa; --on-screen-sub:#9fb0c6;
-    --marker:rgba(255,212,59,.32);
-    --ok:#5cc98f; --warn:#e7b34a; --ng:#f2837a;
-    --c-new:#8aaeff; --c-seen:#4fc6d6; --c-rand:#b9a2f5; --c-fav:#ffd43b; --c-rev:#5cc98f;
+    --bg:#16151a; --card:#211f26; --ink:#f0eef2; --sub:#a5a1ad; --line:#332f3a;
+    --accent:#fb923c; --accent-soft:#3a2418;
+    --ok:#4ade80; --warn:#fbbf24; --ng:#f87171;
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px -12px rgba(0,0,0,.7);
+    --c-new:#fb923c; --c-seen:#22d3ee; --c-rand:#c4b5fd; --c-fav:#fbbf24; --c-rev:#4ade80;
   }
 }
 :root[data-theme="dark"]{
-  --bg:#0f1620; --card:#172130; --ink:#e6ecf2; --sub:#9aa7b6; --line:#2a3646;
-  --accent:#8aaeff; --accent-soft:#1d2b45;
-  --screen:#1f3049; --on-screen:#f3f6fa; --on-screen-sub:#9fb0c6;
-  --marker:rgba(255,212,59,.32);
-  --ok:#5cc98f; --warn:#e7b34a; --ng:#f2837a;
-  --c-new:#8aaeff; --c-seen:#4fc6d6; --c-rand:#b9a2f5; --c-fav:#ffd43b; --c-rev:#5cc98f;
+  --bg:#16151a; --card:#211f26; --ink:#f0eef2; --sub:#a5a1ad; --line:#332f3a;
+  --accent:#fb923c; --accent-soft:#3a2418;
+  --ok:#4ade80; --warn:#fbbf24; --ng:#f87171;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px -12px rgba(0,0,0,.7);
+  --c-new:#fb923c; --c-seen:#22d3ee; --c-rand:#c4b5fd; --c-fav:#fbbf24; --c-rev:#4ade80;
 }
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--ja);font-weight:500;
-  line-height:1.75;-webkit-text-size-adjust:100%}
-.wrap{max-width:640px;margin:0 auto;padding:28px 16px 90px}
-header{padding:0 0 22px}
-h1{font-size:28px;font-weight:900;line-height:1.2;margin:0 0 6px;letter-spacing:.02em}
-h2{font-size:16px;font-weight:700;margin:0 0 12px}
-.sub{color:var(--sub);font-size:13px}
-a{color:inherit}
-
-/* ホームの区切り: 影つきカードにせず、線で区切るだけ */
-.card{margin-bottom:0}
-#home > .card{padding:24px 0;border-top:1px solid var(--line)}
-#home > .card:first-child{border-top:none;padding-top:0}
-#play .card,#result .card,.cue{background:var(--card);border-radius:var(--r);margin-bottom:14px}
-#result .card{padding:22px 18px}
-
-button{font:inherit;cursor:pointer;border-radius:12px;border:1px solid var(--line);
-  background:var(--card);color:var(--ink);padding:11px 16px;transition:background-color .12s}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans JP",sans-serif;
+  line-height:1.7;-webkit-text-size-adjust:100%}
+.wrap{max-width:680px;margin:0 auto;padding:20px 16px 90px}
+header{padding:8px 0 18px}
+h1{font-size:20px;margin:0 0 2px;letter-spacing:.01em}
+h2{font-size:15px;margin:0 0 10px}
+.sub{color:var(--sub);font-size:12.5px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);
+  padding:18px;box-shadow:var(--shadow);margin-bottom:14px}
+button{font:inherit;cursor:pointer;border-radius:10px;border:1px solid var(--line);
+  background:var(--card);color:var(--ink);padding:11px 16px;transition:.12s}
 button:active{transform:translateY(1px)}
 button:disabled{opacity:.4;cursor:default}
-button:focus-visible,select:focus-visible,input:focus-visible,a:focus-visible{
-  outline:3px solid var(--accent);outline-offset:2px}
-.primary{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:700}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .primary{color:#0f1620}}
-:root[data-theme="dark"] .primary{color:#0f1620}
+.primary{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:600}
 .row{display:flex;gap:9px;flex-wrap:wrap}
 .grid{display:grid;gap:10px}
-
-/* どこから解く: 1列の一覧。色の四角でコーナーを見分ける */
-.corner{grid-template-columns:1fr;gap:0;background:var(--card);border-radius:var(--r);overflow:hidden}
-.corner button{display:grid;grid-template-columns:10px 1fr;column-gap:14px;text-align:left;
-  padding:15px 18px;line-height:1.45;border:none;border-radius:0;border-top:1px solid var(--line);background:none}
-.corner button:first-child{border-top:none}
-.corner button:hover{background:var(--accent-soft)}
-.corner button::before{content:"";grid-row:1 / 3;width:10px;height:10px;border-radius:3px;
-  background:var(--cc,var(--line));margin-top:8px}
-.corner b{display:block;font-size:16px;font-weight:700;color:var(--ink)}
-.corner span{font-size:12.5px;color:var(--sub)}
-.corner b > .n{float:right;font-size:18px;font-weight:700;color:var(--ink);font-variant-numeric:tabular-nums}
-
-.pill{display:inline-block;font-size:12px;padding:3px 10px;border-radius:99px;
-  background:var(--accent-soft);color:var(--accent);font-weight:700}
-
-/* 出題パネル（リールの画面） */
-.cue{overflow:hidden}
-.screen{background:var(--screen);color:var(--on-screen);padding:16px 18px 0}
-.screen .pill{background:none;padding:0;border-radius:0;color:var(--caption);font-size:13px}
-.screen .star{color:var(--on-screen-sub)}
-.screen .star.on{color:var(--caption)}
-.screen .linkbtn{color:var(--on-screen-sub)}
-.screen .badge-seen{color:var(--on-screen-sub)}
+.corner{grid-template-columns:1fr 1fr}
+@media(max-width:520px){.corner{grid-template-columns:1fr}}
+.corner button{text-align:left;padding:14px 16px;line-height:1.45;
+  border-left:4px solid var(--cc,var(--line))}
+.corner b{display:block;font-size:15px;margin-bottom:2px;color:var(--cc,var(--ink))}
+.corner span{font-size:12px;color:var(--sub)}
+.corner .n{float:right;font-size:12px;color:var(--sub);font-weight:600}
+.pill{display:inline-block;font-size:11px;padding:3px 9px;border-radius:99px;
+  background:var(--accent-soft);color:var(--accent);font-weight:600}
 .ja-q{font-size:26px;font-weight:700;line-height:1.5;margin:14px 0 6px}
-.screen .ja-q{font-size:clamp(24px,6.6vw,32px);font-weight:900;line-height:1.5;margin:22px 0 26px;
-  color:var(--on-screen);letter-spacing:.02em}
-.cue-body{padding:18px}
+.en-a{font-size:23px;font-weight:600;color:var(--accent);margin:6px 0;line-height:1.45}
 .timer{height:5px;background:var(--line);border-radius:99px;overflow:hidden;margin:14px 0}
-.screen .timer{height:6px;margin:0 -18px;border-radius:0;background:rgba(255,255,255,.12)}
-.timer i{display:block;height:100%;background:var(--caption);width:100%;transition:width .1s linear}
+.timer i{display:block;height:100%;background:var(--accent);width:100%;transition:width .1s linear}
 .timer.over i{background:var(--ng)}
-
-/* 答えの英文: 字幕の黄色でマーカーを引く。答えを見た瞬間に左から引かれる */
-.en-line{margin:4px 0 10px}
-.en-a{font-family:var(--en);font-size:27px;font-weight:600;line-height:1.5;color:var(--ink);
-  background-image:linear-gradient(var(--marker),var(--marker));background-repeat:no-repeat;
-  background-size:100% .42em;background-position:0 86%;
-  -webkit-box-decoration-break:clone;box-decoration-break:clone}
-.en-line .en-a{display:inline}
-#p-after:not(.hidden) #p-en{animation:sweep .5s .08s ease-out both}
-@keyframes sweep{from{background-size:0 .42em}}
-@media (prefers-reduced-motion:reduce){#p-after:not(.hidden) #p-en{animation:none}}
-
 .score{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:6px}
-.score button{padding:13px 6px;font-weight:700;font-size:15px}
-.score button small{display:block;font-size:10.5px;font-weight:500;color:var(--sub);margin-top:2px}
-.meta{font-size:14px;color:var(--sub);margin-top:14px;padding-top:14px;border-top:1px solid var(--line)}
+.score button{padding:13px 6px;font-weight:600;font-size:15px}
+.score button small{display:block;font-size:10.5px;font-weight:400;color:var(--sub);margin-top:2px}
+.meta{font-size:13.5px;color:var(--sub);margin-top:12px;padding-top:12px;border-top:1px solid var(--line)}
 .meta b{color:var(--ink)}
-.ptn{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
-.ptn b{font-size:12px;color:var(--sub);border:1px solid var(--line);border-radius:6px;padding:0 7px}
-.ptn span{color:var(--ink);font-weight:700;font-size:15px}
-.apply{margin:8px 0 0;font-size:14px;padding-left:0}
-.apply li{margin-bottom:12px;list-style:none}
+.apply{margin-top:8px;font-size:14px;padding-left:0}
+.apply li{margin-bottom:9px;list-style:none}
 .apply .aj{color:var(--sub);font-size:13px}
-.apply .ae{font-family:var(--en);font-size:17px;font-weight:500;color:var(--ink)}
-.spk{border:none;background:none;padding:4px 8px;font-size:14px;color:var(--sub);border-radius:8px}
-.spk:hover{color:var(--ink);background:var(--accent-soft)}
-.star{border:none;background:none;font-size:20px;padding:2px 6px;line-height:1;
-  color:var(--sub);border-radius:6px}
-.star.on{color:var(--c-fav)}
-.prog{font-size:13px;color:var(--sub);display:flex;justify-content:space-between;
+.apply .ae{font-weight:500}
+.spk{border:none;background:none;padding:2px 5px;font-size:15px;opacity:.55;border-radius:6px}
+.spk:hover{opacity:1;background:var(--accent-soft)}
+.star{border:none;background:none;font-size:19px;padding:2px 6px;line-height:1;
+  color:var(--sub);opacity:.5;border-radius:6px}
+.star.on{color:var(--c-fav);opacity:1}
+.prog{font-size:12.5px;color:var(--sub);display:flex;justify-content:space-between;
   align-items:center;gap:10px;margin-bottom:10px}
 .hidden{display:none!important}
 .item{border-bottom:1px solid var(--line);padding:13px 0;display:flex;gap:10px;align-items:flex-start}
 .item:last-child{border-bottom:none}
 .item .body{flex:1;min-width:0}
-.item .ij{font-weight:700;font-size:15px}
-.item .ie{font-family:var(--en);color:var(--ink);font-size:16px}
+.item .ij{font-weight:600;font-size:15px}
+.item .ie{color:var(--accent);font-size:14.5px}
 .item .ip{font-size:11.5px;color:var(--sub);margin-top:2px}
 .item.gone{opacity:.45}
-
-/* ホームの数字: 1行に並べるだけ。大きく飾らない */
-.stat{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
-.stat div{border-left:2px solid var(--line);padding-left:10px}
-.stat div b{display:block;font-size:20px;font-weight:700;line-height:1.3;font-variant-numeric:tabular-nums}
-.stat div span{font-size:11.5px;color:var(--sub)}
-.opt{display:flex;align-items:center;gap:16px;font-size:13.5px;color:var(--sub);flex-wrap:wrap}
+.stat{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;text-align:center}
+.stat div b{display:block;font-size:21px;line-height:1.3}
+.stat div span{font-size:11px;color:var(--sub)}
+.opt{display:flex;align-items:center;gap:14px;font-size:13.5px;color:var(--sub);flex-wrap:wrap}
 .opt select{font:inherit;font-size:13px;padding:5px 8px;border-radius:8px;
   border:1px solid var(--line);background:var(--card);color:var(--ink)}
-.opt label{display:flex;align-items:center;gap:6px}
-.opt input{accent-color:var(--accent)}
-.note{font-size:12.5px;color:var(--sub);padding:2px 0 2px 12px;border-left:2px solid var(--line);margin-top:14px}
-.badge-seen{font-size:11px;color:var(--c-seen);border:1px solid currentColor;
-  border-radius:99px;padding:0 7px;font-weight:700;vertical-align:2px}
-.sheet{position:fixed;inset:0;background:rgba(15,22,32,.5);display:flex;
+.opt label{display:flex;align-items:center;gap:5px}
+.note{font-size:12.5px;color:var(--sub);background:var(--accent-soft);
+  padding:10px 12px;border-radius:10px;margin-top:12px}
+.badge-seen{font-size:10.5px;color:var(--c-seen);border:1px solid currentColor;
+  border-radius:99px;padding:1px 7px;font-weight:600;vertical-align:2px}
+.sheet{position:fixed;inset:0;background:rgba(0,0,0,.45);display:flex;
   align-items:flex-end;justify-content:center;z-index:50}
-.sheet .inner{background:var(--card);border-radius:20px 20px 0 0;padding:22px 18px 30px;
-  width:100%;max-width:640px}
-@media(min-width:560px){.sheet{align-items:center}.sheet .inner{border-radius:20px;margin:0 16px}}
+.sheet .inner{background:var(--card);border-radius:18px 18px 0 0;padding:22px 18px 30px;
+  width:100%;max-width:680px;box-shadow:var(--shadow)}
+@media(min-width:560px){.sheet{align-items:center}.sheet .inner{border-radius:18px;margin:0 16px}}
 .counts{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin:14px 0 4px}
-.counts button{padding:15px 4px;font-weight:700}
-.linkbtn{border:none;background:none;color:var(--sub);font-size:12.5px;
-  text-decoration:underline;text-underline-offset:3px;padding:4px 4px}
-@media(max-width:420px){
-  .stat div{padding-left:8px}
-  .stat div b{font-size:18px}
-  .en-a{font-size:24px}
-}
+.counts button{padding:15px 4px;font-weight:600}
+.linkbtn{border:none;background:none;color:var(--sub);font-size:12px;
+  text-decoration:underline;padding:4px 2px}
 /* HIST:CSS:BEGIN */
 /* ============================================================
    学習の履歴 — 見た目（いつ・何を・何％で解いたかの一覧＋点数フィルタ）
@@ -422,7 +360,7 @@ button:focus-visible,select:focus-visible,input:focus-visible,a:focus-visible{
 <div class="wrap">
 <header>
   <h1>Gimmy英作文</h1>
-  <div class="sub">日本語を見た瞬間に、英語を口に出す練習。素材：<span id="srcmeta"></span></div>
+  <div class="sub">日本語を見た瞬間に英語を出す練習 — 素材: <span id="srcmeta"></span></div>
 </header>
 
 <!-- ================= HOME ================= -->
@@ -504,36 +442,33 @@ button:focus-visible,select:focus-visible,input:focus-visible,a:focus-visible{
     <button class="linkbtn" onclick="quit()">やめる</button></span>
   </div>
 
-  <div class="card cue">
-   <div class="screen">
+  <div class="card">
     <div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
       <span class="pill" id="p-pattern"></span>
       <span><span id="p-seen"></span><button class="star" id="p-star" onclick="toggleFav(cur.id);renderStar()">☆</button><button class="linkbtn" id="p-del" onclick="deleteCurrent()" title="このフレーズを出題から外す">削除</button></span>
     </div>
     <div class="ja-q" id="p-ja"></div>
     <div class="timer" id="p-timer"><i></i></div>
-   </div>
-   <div class="cue-body">
+
     <div id="p-before">
       <div class="row"><button class="primary" style="flex:1" onclick="reveal()">答えを見る</button></div>
     </div>
 
     <div id="p-after" class="hidden">
-      <div class="en-line"><span class="en-a" id="p-en"></span></div>
+      <div class="en-a" id="p-en"></div>
       <div class="row" style="margin-bottom:12px">
         <button class="spk" onclick="playEn()">▶ 音声</button>
         <button class="spk" onclick="playEn(.7)">▶ ゆっくり</button>
       </div>
       <div id="p-score"></div>
       <div class="meta">
-        <div class="ptn"><b>型</b><span id="p-ptn"></span></div>
+        <div><b>型</b> — <span id="p-ptn"></span></div>
         <div style="margin-top:6px" id="p-exp"></div>
         <div style="margin-top:10px"><b>この型で言えること</b></div>
         <ul class="apply" id="p-apply"></ul>
         <div id="p-src" style="margin-top:10px;font-size:12px"></div>
       </div>
     </div>
-   </div>
   </div>
   <div id="p-prevfix"></div>
 </section>
@@ -718,7 +653,7 @@ const RV_ENV = {
     const it = BY_ID[id];
     if(!it) return '';
     return `<div class="ja-q" style="font-size:17px">${it.ja}</div><div class="en-a" style="font-size:17px">${it.en}</div>`
-      + `<div class="meta"><div class="ptn"><b>型</b><span>${it.pattern}</span></div><div style="margin-top:6px">${it.explanation || ''}</div>`
+      + `<div class="meta"><div><b>型</b> — ${it.pattern}</div><div style="margin-top:6px">${it.explanation || ''}</div>`
       + `<div style="margin-top:10px"><b>同じ型の例</b></div><ul class="apply">${(it.apply || []).map(a => `<li><div class="aj">${a.ja}</div><div class="ae">${a.en}</div></li>`).join('')}</ul></div>`;
   },
   onChange(){ if(!document.getElementById('home').classList.contains('hidden')){ refresh(); renderList(); } }
@@ -2394,7 +2329,7 @@ function show(){
   const jaEl = document.getElementById('p-ja');
   if(opt.audio){
     jaEl.textContent = '（日本語を聞いて英語を言う）';
-    jaEl.style.color = 'var(--on-screen-sub)'; jaEl.style.fontSize = '17px';
+    jaEl.style.color = 'var(--sub)'; jaEl.style.fontSize = '17px';
     say(`audio_ja/${cur.id}.mp3`);
   }else{
     jaEl.textContent = cur.ja; jaEl.style.color=''; jaEl.style.fontSize='';
