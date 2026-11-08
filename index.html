@@ -463,6 +463,8 @@ button:disabled{opacity:.4;cursor:default}
         <button class="spk" onclick="playEn(.7)">▶ ゆっくり</button>
       </div>
       <div id="p-score"></div>
+      <!-- 答えの画面から削除（2026-11-08）。採点を押す前なので記録は付けずに外して次へ -->
+      <div style="text-align:right;margin:4px 0 12px"><button id="p-del2" style="font-size:12px;padding:6px 10px;color:var(--sub)" onclick="deleteCurrent()">🗑 この問題を削除（今後は出さない）</button></div>
       <div class="meta">
         <div><b>型</b> — <span id="p-ptn"></span></div>
         <div style="margin-top:6px" id="p-exp"></div>
