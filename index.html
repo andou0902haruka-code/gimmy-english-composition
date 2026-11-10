@@ -2201,6 +2201,7 @@ function refresh(){
   document.getElementById('delbtn').textContent = dn ? `削除したフレーズ（${dn}）` : '';
   document.getElementById('rvBar').innerHTML = rvBarHtml(L.map(i => i.id));
   document.getElementById('rvPanel').innerHTML = rvPanelHtml(L.map(i => i.id));
+  holdFix();
   const hold = rvHold();
   document.getElementById('holdBox').innerHTML = hold ? `<button style="width:100%;margin-top:10px" onclick="resumeHold()">途中でやめた回の続き（${hold.ids.length}問）</button>` : '';
 }
@@ -2421,11 +2422,21 @@ function retryWrong(){
   queue = shuffle(list); leftover = []; qi = 0; log = []; cut = 0;
   go('play'); show();
 }
-/* 途中でやめた回の保留（未回答のフレーズをこの端末に残し、次に開いたとき続きから） */
+/* 途中でやめた回の保留（未回答のフレーズをこの端末に残し、次に開いたとき続きから）
+   2026-11-10: 残すのは「その回で出題したのに答えていない問題」だけ。
+   コーナーの残り（leftover＝選ばなかった問題）は入れない（入れるとプール全体＝千問単位が「続き」に積まれていた）。
+   前の保留（holdPrev）とは合わせるが HOLD_MAX 問まで */
+const HOLD_MAX = 30;
 let holdPrev = [], cut = 0, lastEid = null;
+function holdIds(ids){ return Array.from(new Set(ids)).slice(0, HOLD_MAX); }
 function saveHold(){
-  const rest = queue.slice(qi).concat(leftover).map(i => i.id).concat(holdPrev);
-  rvHoldSave(rest.length ? { ids: Array.from(new Set(rest)), key: cornerKey, at: Date.now() } : null);
+  const rest = holdIds(queue.slice(qi).map(i => i.id).concat(holdPrev));
+  rvHoldSave(rest.length ? { ids: rest, key: cornerKey, at: Date.now(), v: 2 } : null);
+}
+/* 古い形（v なし＝コーナーの残りまで積まれていた）の保留は、先頭（＝やめた回の未回答）だけ残す */
+function holdFix(){
+  const h = rvHold();
+  if(h && (h.v !== 2 || h.ids.length > HOLD_MAX)) rvHoldSave({ ids: holdIds(h.ids.slice(0, 20)), key: h.key, at: h.at, v: 2 });
 }
 function resumeHold(){
   const h = rvHold();
@@ -2434,7 +2445,7 @@ function resumeHold(){
   rvHoldClear();
   if(!list){ refresh(); return; }
   cornerKey = POOLS[h.key] ? h.key : 'rand';
-  queue = list.slice(0, 20); leftover = list.slice(20);
+  queue = list; leftover = [];
   qi = 0; log = []; cut = 0; holdPrev = []; prac = false;
   go('play'); show();
 }
@@ -2584,7 +2595,7 @@ function finish(partial){
   clearInterval(timerId);
   if(aud) aud.pause();
   flushAllSync();   /* この回の履歴をクラウドへ送る（結果画面が区切り） */
-  if(!partial && !prac) rvHoldSave(holdPrev.length || leftover.length ? { ids: leftover.map(i => i.id).concat(holdPrev), key: cornerKey, at: Date.now() } : null);
+  if(!partial && !prac) rvHoldSave(holdPrev.length ? { ids: holdIds(holdPrev), key: cornerKey, at: Date.now(), v: 2 } : null);
   const n = log.length, avg = n ? Math.round(log.reduce((s,x)=>s+x.pct,0)/n) : 0, wrongN = log.filter(x=>x.pct<80).length;
   document.getElementById('r-title').textContent = prac ? (partial ? `再挑戦 ここまで${n}問` : '再挑戦の結果') : partial ? `ここまで${n}問、記録しました` : 'おつかれさま';
   document.getElementById('r-n').textContent = n;
