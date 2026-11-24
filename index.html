@@ -355,6 +355,11 @@ button:disabled{opacity:.4;cursor:default}
 .rv-modal{position:fixed;inset:0;background:rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center;z-index:9999;padding:16px;}
 .rv-modal-in{background:var(--rv-card);color:var(--rv-ink);border-radius:14px;max-width:560px;width:100%;max-height:85vh;overflow:auto;padding:16px;}
 .rv-modal-b{display:flex;gap:8px;justify-content:flex-end;margin-top:12px;}
+
+/* 定着した問題の目印（2026-11-24）。一覧の中に置くのでアプリの文字色に合わせる */
+.rv-master{display:inline-block;font-size:.72rem;font-weight:700;line-height:1.5;padding:1px 8px;margin:0 2px;border-radius:999px;
+  color:#8a5a00;background:#fff3d6;border:1px solid #f0d08a;white-space:nowrap;vertical-align:middle;}
+@media (prefers-color-scheme: dark){ .rv-master{color:#ffd27a;background:#3a2f14;border-color:#6b5520;} }
 /* RV:CSS:END */
 </style>
 </head>
@@ -386,6 +391,7 @@ button:disabled{opacity:.4;cursor:default}
       <button style="--cc:var(--c-rand)" onclick="pick('rand')"><b>完全ランダム <span class="n" id="n-rand">0</span></b><span>学習ずみも未学習も混ぜて出す</span></button>
       <button style="--cc:var(--c-fav)"  onclick="pick('fav')"><b>お気に入り <span class="n" id="n-fav">0</span></b><span>星を付けたフレーズだけ</span></button>
       <button style="--cc:var(--c-rev)"  onclick="pick('review')"><b>今日の復習 <span class="n" id="n-review">0</span></b><span>間隔をあけて出しなおす（6段の箱）</span></button>
+      <button style="--cc:#c08a14" onclick="pick('mastered')"><b>定着 <span class="n" id="n-mastered">0</span></b><span>次の復習が30日以上先の段まで上がったフレーズ（練習・記録しない）</span></button>
     </div>
     <div class="opt" style="margin-top:16px">
       <label>制限時間
@@ -415,7 +421,8 @@ button:disabled{opacity:.4;cursor:default}
 
   <div class="card">
     <div class="prog"><b style="color:var(--ink);font-size:15px">収録フレーズ</b>
-      <span><button class="linkbtn" onclick="toggleDel()" id="delbtn"></button>
+      <span><button class="linkbtn" onclick="toggleMst()" id="mstbtn">定着だけ</button>
+      <button class="linkbtn" onclick="toggleDel()" id="delbtn"></button>
       <button class="linkbtn" onclick="toggleList()" id="listbtn">ひらく</button></span></div>
     <div id="list" class="hidden"></div>
   </div>
@@ -1325,6 +1332,29 @@ function rvWaitIds() {
 /* 登録待ちを今日の登録の残り枠まで登録する。2026-11-20〜 空いている日に予約する（rvReserve と同じ） */
 function rvEnrollWaiting(n) { return rvReserve(n); }
 
+/* ---------------- 定着した問題（2026-11-24） ----------------
+   いまの段の間隔が RV_MASTER_DAYS（30日）以上＝次の復習が30日以上先になる段まで上がった問題。
+   英単語ノート・表現メモは30日の段、ほか（1/3/7/14/35/90日）は35日の段から。②③で段が下がれば外れる。
+   定着した問題だけのテストは練習（記録しない）で、各アプリが自分の出題画面で出す */
+var RV_MASTER_DAYS = 30;
+function rvMasterBox() {
+  var iv = rvIv();
+  for (var i = 0; i < iv.length; i++) if (iv[i] >= RV_MASTER_DAYS) return i;
+  return iv.length - 1;
+}
+function rvMastered(id) { var s = rvSt(id); return !!(s.en && (s.box | 0) >= rvMasterBox()); }
+function rvMasteredIds(ids) { return (ids || rvLiveIds()).map(String).filter(rvMastered); }
+/* 一覧に付ける目印「🏆 定着・次 12/30」。定着していなければ空 */
+function rvMasterChip(id) {
+  if (!rvMastered(id)) return '';
+  return '<span class="rv-master" title="次の復習まで30日以上の段まで上がった">🏆 定着・次 ' + rvMd(rvSt(id).due) + '</span>';
+}
+/* 定着した問題の一覧・テストの見出しに出す説明 */
+function rvMasterNote() {
+  return '次の復習が' + RV_MASTER_DAYS + '日以上先になる段（' + rvIv()[rvMasterBox()] + '日の段）まで上がった' + rvUnit() + 'です。'
+    + '復習で②③を付けて段が下がると、ここから外れます。定着テストは練習なので記録しません（箱・今日の' + rvCfg().cap + rvUnit() + '・成績は動きません）。';
+}
+
 /* ---------------- 途中でやめた回の保留（この端末だけ） ---------------- */
 function rvHoldKey() { return rvKey() + '_hold'; }
 function rvHoldSave(h) { try { if (h && h.ids && h.ids.length) localStorage.setItem(rvHoldKey(), JSON.stringify(h)); else localStorage.removeItem(rvHoldKey()); } catch (e) {} }
@@ -1552,6 +1582,7 @@ function rvPanelHtml(ids) {
     + '<div><b>' + viewed + '</b><span>閲覧のみ</span></div>'
     + '<div><b>' + paused.length + '</b><span>休止中</span></div>'
     + '<div><b>' + rel.length + '</b><span>学び直し候補</span></div>'
+    + '<div><b>' + all.filter(rvMastered).length + '</b><span>定着（' + RV_MASTER_DAYS + '日以上の段）</span></div>'
     + '</div>'
     + '<div class="rv-p">今日の登録（登録待ち→復習対象）：<b>' + rvEnrolledToday() + '</b>／' + el + '件</div>';
   if (wait.length || rsv.length) {
@@ -2291,7 +2322,9 @@ const POOLS = {
   rand:   { name:'完全ランダム',desc:'学習ずみも未学習も混ぜて出す',         get:()=>live() },
   fav:    { name:'お気に入り', desc:'星を付けたフレーズだけ',               get:()=>live().filter(i=> isFav(i.id)) },
   review: { name:'今日の復習', desc:'期日が来た復習を、まちがえた・弱いフレーズ20＋長く待っているフレーズ10の割合で（1日30問まで）',
-            get:()=>{ const L = live(), m = new Map(L.map(i => [i.id, i])); return rvPick(L.map(i => i.id)).map(id => m.get(id)).filter(Boolean); } }
+            get:()=>{ const L = live(), m = new Map(L.map(i => [i.id, i])); return rvPick(L.map(i => i.id)).map(id => m.get(id)).filter(Boolean); } },
+  /* 2026-11-24 定着＝いまの段の間隔が30日以上（rv.js の rvMastered）。ここから解くのは練習（記録しない） */
+  mastered: { name:'定着', desc:'次の復習が30日以上先の段まで上がったフレーズ。練習なので記録しません（箱・次の復習日・今日の30問はそのまま）', get:()=>live().filter(i=>rvMastered(i.id)) }
 };
 
 /* ============ 画面 ============ */
@@ -2338,6 +2371,13 @@ function go(id){
 }
 let showDeleted = false;
 function toggleDel(){ showDeleted = !showDeleted; if(document.getElementById('list').classList.contains('hidden')) toggleList(); else renderList(); }
+/* 定着したフレーズだけを一覧に出す（2026-11-24） */
+let showMst = false;
+function toggleMst(){
+  showMst = !showMst;
+  document.getElementById('mstbtn').textContent = showMst ? 'すべて表示' : '定着だけ';
+  if(document.getElementById('list').classList.contains('hidden')) toggleList(); else renderList();
+}
 function toggleList(){
   const l = document.getElementById('list'), b = document.getElementById('listbtn');
   l.classList.toggle('hidden');
@@ -2349,7 +2389,7 @@ function toggleList(){
 function renderList(){
   const l = document.getElementById('list');
   if(l.classList.contains('hidden')){ l.innerHTML = ''; return; }
-  const rows = ALL.filter(i => showDeleted ? isDel(i.id) : !isDel(i.id));
+  const rows = ALL.filter(i => (showDeleted ? isDel(i.id) : !isDel(i.id)) && (!showMst || rvMastered(i.id)));
   document.getElementById('list').innerHTML = (rows.length ? rows : []).map(i => {
     const r = srs[i.id];
     const box  = r ? `<span class="pill" style="background:transparent;color:var(--sub)">箱${r.box+1}</span>` : '';
@@ -2357,7 +2397,7 @@ function renderList(){
     return `<div class="item ${isDel(i.id)?'gone':''}">
       <button class="star ${isFav(i.id)?'on':''}" data-fav="${i.id}" onclick="toggleFav('${i.id}')">${isFav(i.id)?'★':'☆'}</button>
       <div class="body">
-        <div class="ij">${i.ja} ${sn} ${box}</div>
+        <div class="ij">${i.ja} ${sn} ${box} ${rvMasterChip(i.id)}</div>
         <div class="ie">${i.en} <button class="spk" onclick="say('audio/${i.id}.mp3')">▶</button></div>
         <div class="ip">${i.pattern}</div>
       </div>
@@ -2471,7 +2511,8 @@ function pick(key){
   if(!pool.length){
     alert(key==='review' ? '今日の復習はありません。' :
           key==='fav'    ? 'お気に入りがまだありません。一覧か出題中に星を付けてください。' :
-          key==='new'    ? '未学習のフレーズはありません。' : 'フレーズがありません。');
+          key==='new'    ? '未学習のフレーズはありません。' :
+          key==='mastered' ? '定着したフレーズはまだありません。復習で①を付け続けると、次の復習が30日以上先の段に上がってここに入ります。' : 'フレーズがありません。');
     return;
   }
   pendingKey = key;
@@ -2506,10 +2547,14 @@ function begin(n){
   const key = pendingKey; closeSheet();
   cornerKey = key;
   const raw = POOLS[key].get();
+  if(key === 'mastered'){   /* 定着テスト＝練習（今日の枠・今日答えたかを見ない・記録しない） */
+    queue = shuffle(raw).slice(0, n); leftover = []; qi = 0; log = []; cut = 0; prac = true; pracMst = true;
+    go('play'); show(); return;
+  }
   const pool = gate(key === 'review' ? raw : shuffle(raw));
   if(!pool) return;
   queue = pool.slice(0, n); leftover = pool.slice(n);
-  qi = 0; log = []; cut = 0; prac = false;
+  qi = 0; log = []; cut = 0; prac = false; pracMst = false;
   holdPrev = (((rvHold() || {}).ids) || []).filter(id => !queue.some(i => i.id === id));
   go('play'); show();
 }
@@ -2519,19 +2564,20 @@ function resume(){
   const next = gate(leftover);
   if(!next) return;
   queue = next.slice(0, n); leftover = next.slice(n);
-  qi = 0; log = []; cut = 0; prac = false;
+  qi = 0; log = []; cut = 0; prac = false; pracMst = false;
   go('play'); show();
 }
 /* ---- まちがえた問題に再挑戦（2026-10-27） ----
    結果画面（途中でやめた回もふくむ）から、その回で②③を付けたフレーズだけをもう一度。
    練習なので記録しない（箱・1日30問の回数・成績・履歴は1回目のまま＝明日の復習にはふつうに出る）。
    再挑戦でもまちがえたら、またそこから再挑戦できる */
-let prac = false;
+let prac = false, pracMst = false;   /* pracMst＝定着テスト（2026-11-24）。どちらも練習で記録しない */
+function pracName(){ return pracMst ? '定着テスト' : '再挑戦'; }
 function retryWrong(){
   const ids = Array.from(new Set(log.filter(x => x.pct < 80).map(x => x.id)));
   const list = ids.map(id => BY_ID[id]).filter(i => i && !isDel(i.id));
   if(!list.length) return;
-  prac = true;
+  prac = true; pracMst = false;
   queue = shuffle(list); leftover = []; qi = 0; log = []; cut = 0;
   go('play'); show();
 }
@@ -2559,7 +2605,7 @@ function resumeHold(){
   if(!list){ refresh(); return; }
   cornerKey = POOLS[h.key] ? h.key : 'rand';
   queue = list; leftover = [];
-  qi = 0; log = []; cut = 0; holdPrev = []; prac = false;
+  qi = 0; log = []; cut = 0; holdPrev = []; prac = false; pracMst = false;
   go('play'); show();
 }
 
@@ -2577,7 +2623,7 @@ function show(){
     saveHold();
   }
   document.getElementById('p-prevfix').innerHTML = prevFixHtml();
-  document.getElementById('p-count').textContent = `${prac ? '再挑戦（練習・記録しない）' : POOLS[cornerKey].name}　${qi+1} / ${queue.length}`;
+  document.getElementById('p-count').textContent = `${prac ? pracName() + '（練習・記録しない）' : POOLS[cornerKey].name}　${qi+1} / ${queue.length}`;
   document.getElementById('p-solved').textContent = log.length ? `解いた ${log.length}問` : '';
   document.getElementById('p-pattern').textContent = cur.patternJa;
   document.getElementById('p-seen').innerHTML = isSeen(cur.id) ? '<span class="badge-seen">学習ずみ</span>' : '';
@@ -2691,7 +2737,7 @@ function quit(){
   if(aud) aud.pause();
   const rest = queue.length - log.length;
   if(prac){
-    if(!confirm('再挑戦をやめますか？（練習なので記録は変わりません）')) return;
+    if(!confirm(pracName() + 'をやめますか？（練習なので記録は変わりません）')) return;
     leftover = [];
     return log.length ? finish(true) : (refresh(), go('home'));
   }
@@ -2710,13 +2756,14 @@ function finish(partial){
   flushAllSync();   /* この回の履歴をクラウドへ送る（結果画面が区切り） */
   if(!partial && !prac) rvHoldSave(holdPrev.length ? { ids: holdIds(holdPrev), key: cornerKey, at: Date.now(), v: 2 } : null);
   const n = log.length, avg = n ? Math.round(log.reduce((s,x)=>s+x.pct,0)/n) : 0, wrongN = log.filter(x=>x.pct<80).length;
-  document.getElementById('r-title').textContent = prac ? (partial ? `再挑戦 ここまで${n}問` : '再挑戦の結果') : partial ? `ここまで${n}問、記録しました` : 'おつかれさま';
+  document.getElementById('r-title').textContent = prac ? (partial ? `${pracName()} ここまで${n}問` : pracName() + 'の結果') : partial ? `ここまで${n}問、記録しました` : 'おつかれさま';
   document.getElementById('r-n').textContent = n;
   document.getElementById('r-avg').textContent = avg + '%';
   document.getElementById('r-weak').textContent = wrongN;
   document.getElementById('r-list').innerHTML = rvDoneHtml("go('home');refresh();pick('review')")
     + (cut ? `<div class="note">今日の枠を使い切った・今日もう答えたフレーズ ${cut}問は出しませんでした。</div>` : '')
-    + (prac ? '<div class="note" style="margin-bottom:8px">再挑戦は練習なので記録していません（明日の復習は1回目の採点どおりに出ます）。</div>'
+    + (prac && pracMst ? '<div class="note" style="margin-bottom:8px">定着テストは練習なので記録していません（箱・次の復習日・今日の30問はそのままです）。</div>'
+       : prac ? '<div class="note" style="margin-bottom:8px">再挑戦は練習なので記録していません（明日の復習は1回目の採点どおりに出ます）。</div>'
             : '<div class="note" style="margin-bottom:8px">言えなかったフレーズは明日の復習に出ます（当日中にはくり返しません）。下のボタンで、いまの回のまちがえた問題にすぐ再挑戦もできます（練習・記録しない）。</div>')
     + log.map((x, i) =>
     `<div class="item"><div class="body"><div class="ij">${x.ja}
